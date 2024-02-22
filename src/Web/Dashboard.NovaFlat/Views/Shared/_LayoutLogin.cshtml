@@ -1,0 +1,82 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 4 admin, bootstrap 4, css3 dashboard, bootstrap 4 dashboard, elegant admin bootstrap 4 dashboard, frontend, responsive bootstrap 4 admin template, material design, material dashboard bootstrap 4 dashboard template">
+    <meta name="description" content="Elegant is powerful and clean admin dashboard template, inpired from Google's Material Design">
+    <meta name="robots" content="noindex,nofollow">
+    <title>Login</title>
+    <link rel="canonical" href="https://www.wrappixel.com/templates/elegant-admin/" />
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Imagen/SIDE-Logo.png">
+    <!-- page css -->
+    <link href="~/Login/login-register-lock.css" rel="stylesheet" />
+    <link href="~/Login/jquery.toast.css" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link href="~/Login/style.min.css" rel="stylesheet" />
+    @RenderSection("Styles", required: false)
+</head>
+
+<body>
+
+    @RenderBody()
+
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/sweetalert.min.js"></script>
+    <script src="~/ViewJs/Login.js"></script>
+
+    <!--<script src="~/Content/assets/plugins/jquery/jquery.js"></script>-->
+    <!-- Bootstrap tether Core JavaScript -->
+    <!--<script src="~/Content/assets/plugins/popper/popper.min.js"></script>
+    <script src="~/Content/assets/plugins/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/Content/assets/plugins/toast-master/js/jquery.toast.js"></script>-->
+
+    @RenderSection("scripts", required: false)
+    <!--Custom JavaScript -->
+    <script type="text/javascript">$(function () {
+            $(".preloader").fadeOut();
+        });
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+        // ==============================================================
+        // Login and Recover Password
+        // ==============================================================
+        //$('#to-recover').on("click", function () {
+        //    $("#loginform").slideUp();
+        //    $("#recoverform").fadeIn();
+        //});
+
+        //$("#btn-regresarLogin").on("click", function () {
+        //    $("#loginform").fadeIn();
+        //    $("#recoverform").slideUp();
+        //});</script>
+
+
+    @if (ViewBag.MessageError != null)
+    {
+        <script type="text/javascript">
+        var mensaje = "@ViewBag.MessageError";
+        var splimensaje = mensaje.split(':');
+        if (splimensaje[0] == "1") {
+            mensaje = "El usuario no pertenece al sistema o contraseña incorrecta.";
+        } else if (splimensaje[0] == "2") {
+            mensaje = "Hubo un error, inténtelo de nuevo.";
+        }
+        else {
+            mensaje = "Error";
+        }
+
+        swal("Alerta!", mensaje, "warning");
+        </script>
+    }
+
+</body>
+
+</html>

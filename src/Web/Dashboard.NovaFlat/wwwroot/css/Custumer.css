@@ -1,0 +1,195 @@
+﻿.form-group {
+    margin-bottom: 1rem;
+    margin-left: 7px;
+}
+.card-body {
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 0.5rem;
+}
+.btn-buscar {
+    margin-top: 18px;
+}
+.modal-body {
+    position: relative;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 0rem !important;
+}
+.input-sm {
+    height: 28px;
+}
+.table td, .table th {
+    padding: 0.1rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+.th-largo{
+    width:27% !important;
+}
+.th-costo {
+    width: 7% !important;
+}
+
+.th-taller {
+    width: 21% !important;
+}
+.th-salida {
+    width: 11% !important;
+}
+.th-situacio {
+    width: 8% !important;
+}
+
+label {
+    display: inline-block;
+    margin-bottom: 0.0rem !important;
+}
+.form-group {
+    margin-bottom: 0rem;
+    margin-left: 7px;
+}
+
+
+.portada {
+    background: url(../Imagen/Fondo2.jpg) no-repeat center;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    -ms-background-size: cover;
+    position: relative;
+    min-height: 85vh;
+    min-width: 100vh;
+}
+
+table.dataTable thead .sorting:before, table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:before, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:before, table.dataTable thead .sorting_desc_disabled:after {
+    position: absolute;
+    bottom: 0.4em;
+    display: block;
+    opacity: 0.3;
+}
+
+.text-sm {
+    font-size: .8rem !important;
+}
+
+.form-control {
+    font-size: 0.8rem !important;
+}
+
+.text-sm .btn {
+    font-size: .8rem !important;
+}
+
+.card {
+    box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
+    margin-bottom: 0.6rem;
+}
+
+.col-sm-2 {
+    flex: 0 0 11.666667%;
+    max-width: 10.566667%;
+}
+
+.card-footer {
+    padding: .1rem 0.2rem !important;
+}
+
+ul.multiselect-container.dropdown-menu.show {
+    width: 300px !important;
+}
+
+.text-sm .dropdown-menu {
+    font-size: 0.8rem !important;
+}
+
+.modal-footer-concepto {
+    padding: 15px;
+    text-align: right;
+    border-top: 1px solid #e5e5e5;
+}
+
+.pull-left-concepto {
+    float: left !important;
+}
+
+.multiselect-clear-filter {
+    padding-bottom: 11px !important;
+}
+
+.col-sm-4-multiselect {
+    -ms-flex: 0 0 33.333333%;
+    flex: 0 0 33.333333%;
+    max-width: 30%;
+}
+
+.col-sm-4-multiselect {
+    -ms-flex: 0 0 33.333333%;
+    flex: 0 0 33.333333%;
+    max-width: 27%;
+}
+
+.text-sm .dropdown-menu {
+    font-size: .8rem !important;
+}
+
+label:not(.form-check-label):not(.custom-file-label) {
+    font-weight: 400;
+}
+
+/*SCROLL*/
+/* width */
+::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+    border-radius: .3rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: .3rem;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #d4cfcf;
+    border-radius: .3rem;
+}
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+
+.user-panel img {
+    height: auto;
+    width: 2.8rem;
+}
+
+.selected {
+    background-color: #3d9970;
+ 
+}
+
+.has-error, select {
+    color: red;
+    border-color: red;
+}
+
+.btnLimpiar {
+    border: yellowgreen;
+    background-color: white;
+    color: #c9c9c9;
+}
+
+.btnLimpiar :hover{
+
+    color: #007bff;
+}
+.invalid-Input {
+    border-color: red;
+}
+ 
+

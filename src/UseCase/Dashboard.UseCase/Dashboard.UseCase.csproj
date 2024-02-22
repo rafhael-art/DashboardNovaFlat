@@ -1,0 +1,65 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Extensions\" />
+    <None Remove="UseCase\" />
+    <None Remove="UseCase\Login\" />
+    <None Remove="UseCase\Login\Queries\" />
+    <None Remove="UseCase\Login\Queries\GetUserByUserAndPassword\" />
+    <None Remove="UseCase\Login\Queries\GetOptionsByUser\" />
+    <None Remove="UseCase\UnidadFlota\" />
+    <None Remove="UseCase\UnidadFlota\Queries\" />
+    <None Remove="UseCase\UnidadFlota\Queries\UnidadFlotaListar\" />
+    <None Remove="UseCase\Common\" />
+    <None Remove="UseCase\Common\Queries\" />
+    <None Remove="UseCase\UnidadFlota\Queries\HistorialListar\" />
+    <None Remove="UseCase\Common\Queries\LocalidadListar\" />
+    <None Remove="UseCase\Common\Queries\DepartamentoSelect\" />
+    <None Remove="UseCase\Common\Queries\ProvinciaSelect\" />
+    <None Remove="UseCase\Common\Queries\DistritoSelect\" />
+    <None Remove="UseCase\Common\Queries\RepuestoSelect\" />
+    <None Remove="UseCase\Common\Queries\MantenimientoSelect\" />
+    <None Remove="UseCase\Common\Queries\UnidadFlotaSelect\" />
+    <None Remove="UseCase\AnexoIV\" />
+    <None Remove="UseCase\AnexoIV\Queries\" />
+    <None Remove="UseCase\AnexoIV\Queries\EstadoSelect\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Extensions\" />
+    <Folder Include="UseCase\" />
+    <Folder Include="UseCase\Login\" />
+    <Folder Include="UseCase\Login\Queries\" />
+    <Folder Include="UseCase\Login\Queries\GetUserByUserAndPassword\" />
+    <Folder Include="UseCase\Login\Queries\GetOptionsByUser\" />
+    <Folder Include="UseCase\UnidadFlota\" />
+    <Folder Include="UseCase\UnidadFlota\Queries\" />
+    <Folder Include="UseCase\UnidadFlota\Queries\UnidadFlotaListar\" />
+    <Folder Include="UseCase\Common\" />
+    <Folder Include="UseCase\Common\Queries\" />
+    <Folder Include="UseCase\UnidadFlota\Queries\HistorialListar\" />
+    <Folder Include="UseCase\Common\Queries\LocalidadListar\" />
+    <Folder Include="UseCase\Common\Queries\DepartamentoSelect\" />
+    <Folder Include="UseCase\Common\Queries\ProvinciaSelect\" />
+    <Folder Include="UseCase\Common\Queries\DistritoSelect\" />
+    <Folder Include="UseCase\Common\Queries\RepuestoSelect\" />
+    <Folder Include="UseCase\Common\Queries\MantenimientoSelect\" />
+    <Folder Include="UseCase\Common\Queries\UnidadFlotaSelect\" />
+    <Folder Include="UseCase\AnexoIV\" />
+    <Folder Include="UseCase\AnexoIV\Queries\" />
+    <Folder Include="UseCase\AnexoIV\Queries\EstadoSelect\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Persistence\Dashboard.Persistence\Dashboard.Persistence.csproj" />
+    <ProjectReference Include="..\..\Model\Dashboard.Model\Dashboard.Model.csproj" />
+    <ProjectReference Include="..\..\Common\Dashboard.Common\Dashboard.Common.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.2.0" />
+  </ItemGroup>
+</Project>
