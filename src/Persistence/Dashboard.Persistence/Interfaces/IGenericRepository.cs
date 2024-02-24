@@ -1,5 +1,4 @@
-﻿using System;
-namespace Dashboard.Persistence.Interfaces
+﻿namespace Dashboard.Persistence.Interfaces
 {
     public interface IGenericRepository<T> where T : class
     {

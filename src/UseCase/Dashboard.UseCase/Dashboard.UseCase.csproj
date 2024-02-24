@@ -29,6 +29,10 @@
     <None Remove="UseCase\AnexoIV\" />
     <None Remove="UseCase\AnexoIV\Queries\" />
     <None Remove="UseCase\AnexoIV\Queries\EstadoSelect\" />
+    <None Remove="Mappings\" />
+    <None Remove="UseCase\ReporteEstadoUnidad\" />
+    <None Remove="UseCase\ReporteEstadoUnidad\Queries\" />
+    <None Remove="UseCase\ReporteEstadoUnidadLima\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Extensions\" />
@@ -53,6 +57,10 @@
     <Folder Include="UseCase\AnexoIV\" />
     <Folder Include="UseCase\AnexoIV\Queries\" />
     <Folder Include="UseCase\AnexoIV\Queries\EstadoSelect\" />
+    <Folder Include="Mappings\" />
+    <Folder Include="UseCase\ReporteEstadoUnidad\" />
+    <Folder Include="UseCase\ReporteEstadoUnidad\Queries\" />
+    <Folder Include="UseCase\ReporteEstadoUnidadLima\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Persistence\Dashboard.Persistence\Dashboard.Persistence.csproj" />
@@ -61,5 +69,6 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.2.0" />
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
   </ItemGroup>
 </Project>

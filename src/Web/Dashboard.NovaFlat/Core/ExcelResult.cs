@@ -16,7 +16,7 @@ namespace Dashboard.NovaFlat.Core
         }
 
 
-        public override void ExecuteResult(ActionContext context)
+        public override async void ExecuteResult(ActionContext context)
         {
             var response = context.HttpContext.Response;
             response.Clear();
@@ -25,19 +25,20 @@ namespace Dashboard.NovaFlat.Core
             if (_tipo == 1)
             {
 
-                response.Headers.Add("content-disposition",
+                response.Headers.Append("content-disposition",
                                    "attachment;filename=\"" + _fileName + ".xlsx\"");
             }
             else
             {
-                response.Headers.Add("content-disposition", "attachment;filename=\"" + _fileName + ".xls\"");
+                response.Headers.Append("content-disposition", "attachment;filename=\"" + _fileName + ".xls\"");
             }
 
 
             using (var memoryStream = new MemoryStream())
             {
                 _workbook.SaveAs(memoryStream);
-                memoryStream.WriteTo(response.Body);
+                memoryStream.Seek(0, SeekOrigin.Begin);
+                await memoryStream.CopyToAsync(response.Body);
             }
 
 

@@ -18,11 +18,15 @@ using Dashboard.UseCase.UseCase.Login.Queries.GetOptionsByUser;
 using Dashboard.UseCase.UseCase.UnidadFlota.Queries.HistorialListar;
 using Dashboard.UseCase.UseCase.UnidadFlota.Queries.UnidadFlotaListar;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Http;
 
 
 namespace Dashboard.NovaFlat.Controllers
 {
+    [Authorize]
     public class UnidadFlotaController : BaseController
     {
         private readonly IMediator _mediator;
@@ -62,7 +66,7 @@ namespace Dashboard.NovaFlat.Controllers
         {
             try
             {
-                var query = _mapper.Map<UnidadFlotaListarQuery>(dataTableModel.filter);
+                var query = _mapper.Map<UnidadFlotaListarQuery>(dataTableModel);
                 var data = (await _mediator.Send(query)).ToList();
                 dataTableModel.data = data;
                 if (data.Count() > 0)
@@ -70,6 +74,10 @@ namespace Dashboard.NovaFlat.Controllers
                     dataTableModel.recordsTotal = data[0].cantidad;
                     dataTableModel.recordsFiltered = dataTableModel.recordsTotal;
                 }
+
+                query._Rows = int.MaxValue;
+                var data_Imprimir = (await _mediator.Send(query)).ToList();
+                HttpContext.Session.SetString("ReporteUnidadFlota", JsonConvert.SerializeObject(data_Imprimir));
             }
             catch (Exception ex)
             {
@@ -85,7 +93,7 @@ namespace Dashboard.NovaFlat.Controllers
         {
             try
             {
-                var query = _mapper.Map<HistorialListarQuery>(dataTableModel.filter);
+                var query = _mapper.Map<HistorialListarQuery>(dataTableModel);
                 var data = (await _mediator.Send(query)).ToList();
                 dataTableModel.data = data;
                 if (data.Count() > 0)
@@ -107,7 +115,9 @@ namespace Dashboard.NovaFlat.Controllers
         [HttpPost]
         public ActionResult ExportXlsx()
         {
-            List<UnidadFlota> data = new List<UnidadFlota>();
+            var json = HttpContext.Session.GetString("ReporteUnidadFlota");
+
+            List<UnidadFlota> data = JsonConvert.DeserializeObject<List<UnidadFlota>>(json!)!;
 
             var dataImpresion = ImpresionData(data);
 
@@ -119,7 +129,8 @@ namespace Dashboard.NovaFlat.Controllers
         [HttpPost]
         public ActionResult ExportXls()
         {
-            List<UnidadFlota> data = new List<UnidadFlota>();
+            var json = HttpContext.Session.GetString("ReporteUnidadFlota");
+            List<UnidadFlota> data = JsonConvert.DeserializeObject<List<UnidadFlota>>(json!)!;
             var dataImpresion = ImpresionData(data);
 
             var workbook = ClosedXmlGenerator<UnidadFlotaImprimirModel>.GenerateWorkBook_UnidadFlota(dataImpresion);
@@ -137,9 +148,10 @@ namespace Dashboard.NovaFlat.Controllers
             {
                 var unidadFlotas = (await _mediator.Send(new LocalidadListarQuery())).ToList();
 
-                var data = unidadFlotas.GroupBy(
-                            p => p.localidad,
-                            (key, g) => new { localidad = key });
+                var data = unidadFlotas
+                    .GroupBy(p => p.localidad)
+                    .Select(k => k.Key)
+                    .ToList();
 
                 jsonResponse.Data = data;
             }
@@ -264,9 +276,10 @@ namespace Dashboard.NovaFlat.Controllers
             {
                 var unidadFlotas = (await _mediator.Send(new UnidadFlotaSelectQuery())).ToList();
 
-                var data = unidadFlotas.GroupBy(
-                            p => p.ubicacion,
-                            (key, g) => new { ubicacion = key });
+                var data = unidadFlotas
+                    .GroupBy(p => p.ubicacion)
+                    .Select(k => k.Key)
+                    .ToList();
 
                 jsonResponse.Data = data;
             }
@@ -288,9 +301,10 @@ namespace Dashboard.NovaFlat.Controllers
             {
                 var unidadFlotas = (await _mediator.Send(new LocalidadListarQuery())).ToList(); ;
 
-                var data = unidadFlotas.GroupBy(
-                            p => p.clase,
-                            (key, g) => new { clase = key });
+                var data = unidadFlotas
+                    .GroupBy(p => p.clase)
+                    .Select(k => k.Key)
+                    .ToList();
 
                 jsonResponse.Data = data;
             }
@@ -312,9 +326,10 @@ namespace Dashboard.NovaFlat.Controllers
             {
                 var unidadFlotas = (await _mediator.Send(new LocalidadListarQuery())).ToList(); ;
 
-                var data = unidadFlotas.GroupBy(
-                            p => p.marca,
-                            (key, g) => new { marca = key });
+                var data = unidadFlotas
+                    .GroupBy(p => p.marca)
+                    .Select(k => k.Key)
+                    .ToList();
 
                 jsonResponse.Data = data;
             }
@@ -336,9 +351,10 @@ namespace Dashboard.NovaFlat.Controllers
             {
                 var unidadFlotas = (await _mediator.Send(new LocalidadListarQuery())).ToList(); ;
 
-                var data = unidadFlotas.GroupBy(
-                            p => p.modelo,
-                            (key, g) => new { modelo = key });
+                var data = unidadFlotas
+                    .GroupBy(p => p.modelo)
+                    .Select(k => k.Key)
+                    .ToList();
 
                 jsonResponse.Data = data;
             }

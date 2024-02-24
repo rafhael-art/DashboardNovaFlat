@@ -11,17 +11,24 @@ namespace Dashboard.NovaFlat.Mappings
     {
         public MappingProfile()
         {
-            CreateMap<UnidadFlotaModelFilter, UnidadFlotaListarQuery>()
-               .ForMember(x => x._localidad, x => x.MapFrom(y => (y.Localidad == "0" || y.Localidad == null) ? "" : y.Localidad))
-               .ForMember(x => x._placa, x => x.MapFrom(y => (y.Placa == null) ? "" : y.Placa))
-               .ForMember(x => x._clase, x => x.MapFrom(y => (y.Clase == "0" || y.Clase == null) ? "" : y.Clase))
-               .ForMember(x => x._ubicacion, x => x.MapFrom(y => (y.Ubicacion == "0" || y.Ubicacion == null) ? "" : y.Ubicacion))
-               .ForMember(x => x._estadoUnidad, x => x.MapFrom(y => (y.EstadoUnidad == "0" || y.EstadoUnidad == null) ? "" : y.EstadoUnidad))
-               .ForMember(x => x._anio, x => x.MapFrom(y => (y.valueAnio == "0" || y.valueAnio == null) ? "" : y.valueAnio));
+            CreateMap<DataTableModel<UnidadFlotaModelFilter, int>, UnidadFlotaListarQuery>()
+               .ForMember(x => x._localidad, x => x.MapFrom(y => (y.filter!.Localidad == "0" || y.filter!.Localidad == null) ? "" : y.filter!.Localidad))
+               .ForMember(x => x._placa, x => x.MapFrom(y => (y.filter!.Placa == null) ? "" : y.filter!.Placa))
+               .ForMember(x => x._clase, x => x.MapFrom(y => (y.filter!.Clase == "0" || y.filter!.Clase == null) ? "" : y.filter!.Clase))
+               .ForMember(x => x._ubicacion, x => x.MapFrom(y => (y.filter!.Ubicacion == "0" || y.filter!.Ubicacion == null) ? "" : y.filter!.Ubicacion))
+               .ForMember(x => x._estadoUnidad, x => x.MapFrom(y => (y.filter!.EstadoUnidad == "0" || y.filter!.EstadoUnidad == null) ? "" : y.filter!.EstadoUnidad))
+               .ForMember(x => x._anio, x => x.MapFrom(y => (y.filter!.valueAnio == "0" || y.filter!.valueAnio == null) ? "" : y.filter!.valueAnio))
+               .ForMember(x => x._Start, x => x.MapFrom(y => y.start))
+               .ForMember(x => x._Rows, x => x.MapFrom(y => y.length))
+               ;
 
-            CreateMap<UnidadHistorialModelFilter, HistorialListarQuery>()
-                .ForMember(x => x._taller, x => x.MapFrom(y => (y.taller == null) ? "" : y.taller))
-                .ForMember(x => x._situacion, x => x.MapFrom(y => (y.situacion == null) ? "" : y.situacion));
+            CreateMap<DataTableModel<UnidadHistorialModelFilter, int>, HistorialListarQuery>()
+                .ForMember(x => x._taller, x => x.MapFrom(y => (y.filter!.taller == null) ? "" : y.filter!.taller))
+                .ForMember(x => x._situacion, x => x.MapFrom(y => (y.filter!.situacion == null) ? "" : y.filter!.situacion))
+                .ForMember(x => x._Start, x => x.MapFrom(y => y.start))
+                .ForMember(x => x._Rows, x => x.MapFrom(y => y.length))
+                .ForMember(x => x._idUnidadFlota, x => x.MapFrom(y => y.filter!.idUnidad))
+                ;
 
         }
     }

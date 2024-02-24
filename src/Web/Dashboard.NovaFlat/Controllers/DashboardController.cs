@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using System.Security.Claims;
+using Dashboard.Common;
 using Dashboard.NovaFlat.Core;
+using Dashboard.NovaFlat.Util;
 using Dashboard.UseCase.UseCase.Login.Queries.GetOptionsByUser;
-using Dashboard.UseCase.UseCase.Login.Queries.GetUserByUserAndPassword;
+using Dashboard.UseCase.UseCase.ReporteEstadoUnidad.Queries;
+using Dashboard.UseCase.UseCase.ReporteEstadoUnidadLima;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace Dashboard.NovaFlat.Controllers
 {
@@ -47,6 +44,54 @@ namespace Dashboard.NovaFlat.Controllers
                     .Select(c => c.Value).SingleOrDefault()!);
             }
             return (nombreUser, id);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> ObtnerReporteXEstadoUnidad()
+        {
+            var jsonResponse = new jsonResponse { Success = true };
+
+            try
+            {
+                var reporteXEstados = (await _mediator.Send(new ReporteEstadoUnidadQuery())).ToList();
+                if (reporteXEstados.Count > 0)
+                    jsonResponse.Data = reporteXEstados;
+                else
+                    jsonResponse.Data = null;
+
+            }
+            catch
+            {
+                jsonResponse.Success = false;
+                jsonResponse.Data = null;
+                jsonResponse.Message = Mensajes.IntenteloMasTarde;
+            }
+
+            return Json(jsonResponse);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> ObtnerReporteXEstadoUnidadLima()
+        {
+            var jsonResponse = new jsonResponse { Success = true };
+
+            try
+            {
+                var reporteXEstados = (await _mediator.Send(new ReporteEstadoUnidadLimaQuery())).ToList();
+                if (reporteXEstados.Count > 0)
+                    jsonResponse.Data = reporteXEstados;
+                else
+                    jsonResponse.Data = null;
+
+            }
+            catch
+            {
+                jsonResponse.Success = false;
+                jsonResponse.Data = null;
+                jsonResponse.Message = Mensajes.IntenteloMasTarde;
+            }
+
+            return Json(jsonResponse);
         }
     }
 }

@@ -8,8 +8,10 @@
 
   <ItemGroup>
     <None Remove="DataTable\" />
+    <None Remove="ExcelSettings\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DataTable\" />
+    <Folder Include="ExcelSettings\" />
   </ItemGroup>
 </Project>

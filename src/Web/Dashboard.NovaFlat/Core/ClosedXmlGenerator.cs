@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Drawing;
 using ClosedXML.Excel;
+using Dashboard.Common.ExcelSettings;
 
 namespace Dashboard.NovaFlat.Core
 {
-    public class ClosedXmlGenerator<T>
+    public class ClosedXmlGenerator<T> where T : class
     {
         public static XLWorkbook GenerateWorkBook(List<T> data)
         {
@@ -40,20 +41,29 @@ namespace Dashboard.NovaFlat.Core
 
                 worksheet.Range("A1:U1")
                          .Style.Font.SetBold(true)
-                .Font.SetFontSize(14)
+                         .Font.SetFontSize(14)
                          .Fill.SetBackgroundColor(XLColor.LightGray);
 
                 // Data
-                worksheet.Cell("A2").Value = data;
+                //worksheet.Cell("A2").Value = data;
+                var rowIndex = 2;
+                foreach (var item in data!)
+                {
+                    var columns = ColumnNames.ObtenerNombresAtributos<T>();
+                    for (int i = 0; i < columns.Count; i++)
+                    {
+                        var propertyValue = typeof(T).GetProperty(columns[i]!)?.GetValue(item)?.ToString();
+                        worksheet.Cell(rowIndex, i + 1).Value = propertyValue;
+                    }
+                    rowIndex++;
+                }
 
 
                 var lastRow = worksheet.LastRowUsed().RowNumber() + 1;
 
                 for (int i = 2; i < lastRow - 1; i++)
                 {
-                    worksheet.Cell(i, 13).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
-                    //worksheet.Cell(i, 9).SetDataType(XLDataType.DateTime).Style.DateFormat.Format = "dd/MM/yyyy";
-                    //worksheet.Cell(i, 10).SetDataType(XLDataType.DateTime).Style.DateFormat.Format = "dd/MM/yyyy";
+                    worksheet.Cell(i, 13).Style.NumberFormat.Format = "#,##0.00";
                 }
 
                 // Footer
@@ -69,7 +79,6 @@ namespace Dashboard.NovaFlat.Core
 
                 worksheet.Cell(lastRow, 13)
                          .SetFormulaA1("SUM(M1:M" + (lastRow - 1) + ")")
-                         .SetDataType(XLDataType.Number)
                          .Style.NumberFormat.SetFormat("#,##0.00")
                          .Fill.SetBackgroundColor(XLColor.Yellow);
 
@@ -117,16 +126,28 @@ namespace Dashboard.NovaFlat.Core
                      .Fill.SetBackgroundColor(XLColor.LightGray);
 
             // Data
-            worksheet.Cell("A2").Value = data;
+
+
+            var rowIndex = 2;
+            foreach (var item in data!)
+            {
+                var columns = ColumnNames.ObtenerNombresAtributos<T>();
+                for (int i = 0; i < columns.Count; i++)
+                {
+                    var propertyValue = typeof(T).GetProperty(columns[i]!)?.GetValue(item)?.ToString();
+                    worksheet.Cell(rowIndex, i + 1).Value = propertyValue;
+                }
+                rowIndex++;
+            }
 
             var lastRow = worksheet.LastRowUsed().RowNumber() + 1;
             for (int i = 2; i < lastRow - 1; i++)
             {
-                //worksheet.Cell(i, 12).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
-                worksheet.Cell(i, 13).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
+                //worksheet.Cell(i, 12).Style.NumberFormat.Format = "#,##0.00";
+                worksheet.Cell(i, 13).Style.NumberFormat.Format = "#,##0.00";
             }
 
-            worksheet.Range("A2:O2").SetAutoFilter(true);
+            worksheet.Range("A1:O1").SetAutoFilter(true);
 
             worksheet.Columns().AdjustToContents();
             return workbook;
@@ -193,13 +214,23 @@ namespace Dashboard.NovaFlat.Core
                      /*.Fill.SetBackgroundColor(XLColor.White)*/;
 
             // Data
-            worksheet.Cell("A3").Value = data;
+            var rowIndex = 2;
+            foreach (var item in data!)
+            {
+                var columns = ColumnNames.ObtenerNombresAtributos<T>();
+                for (int i = 0; i < columns.Count; i++)
+                {
+                    var propertyValue = typeof(T).GetProperty(columns[i]!)?.GetValue(item)?.ToString();
+                    worksheet.Cell(rowIndex, i + 1).Value = propertyValue;
+                }
+                rowIndex++;
+            }
 
             var lastRow = worksheet.LastRowUsed().RowNumber() + 1;
             for (int i = 2; i < lastRow - 1; i++)
             {
-                //worksheet.Cell(i, 12).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
-                //worksheet.Cell(i, 13).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
+                //worksheet.Cell(i, 12).Style.NumberFormat.Format = "#,##0.00";
+                //worksheet.Cell(i, 13).Style.NumberFormat.Format = "#,##0.00";
             }
 
 
@@ -238,7 +269,17 @@ namespace Dashboard.NovaFlat.Core
                      .Fill.SetBackgroundColor(XLColor.LightGray);
 
             // Data
-            worksheet.Cell("A2").Value = data;
+            var rowIndex = 2;
+            foreach (var item in data!)
+            {
+                var columns = ColumnNames.ObtenerNombresAtributos<T>();
+                for (int i = 0; i < columns.Count; i++)
+                {
+                    var propertyValue = typeof(T).GetProperty(columns[i]!)?.GetValue(item)?.ToString();
+                    worksheet.Cell(rowIndex, i + 1).Value = propertyValue;
+                }
+                rowIndex++;
+            }
 
 
 
@@ -294,28 +335,27 @@ namespace Dashboard.NovaFlat.Core
                      .Fill.SetBackgroundColor(XLColor.LightGray);
 
             // Data
-            worksheet.Cell("A2").Value = data;
-
+            var rowIndex = 2;
+            foreach (var item in data!)
+            {
+                var columns = ColumnNames.ObtenerNombresAtributos<T>();
+                for (int i = 0; i < columns.Count; i++)
+                {
+                    var propertyValue = typeof(T).GetProperty(columns[i]!)?.GetValue(item)?.ToString();
+                    worksheet.Cell(rowIndex, i + 1).Value = propertyValue;
+                }
+                rowIndex++;
+            }
 
             var lastRow = worksheet.LastRowUsed().RowNumber() + 1;
 
             for (int i = 2; i < lastRow - 1; i++)
             {
-                ////Formato fecha
-                //if (ConfigurationManager.AppSettings.Get("validarFecha") == "1")
-                //{
-                //    worksheet.Cell(i, 3).SetDataType(XLDataType.DateTime).Style.DateFormat.Format = ConfigurationManager.AppSettings.Get("FormatoFecha");
-                //    worksheet.Cell(i, 5).SetDataType(XLDataType.DateTime).Style.DateFormat.Format = ConfigurationManager.AppSettings.Get("FormatoFecha");
-                //    worksheet.Cell(i, 6).SetDataType(XLDataType.DateTime).Style.DateFormat.Format = ConfigurationManager.AppSettings.Get("FormatoFecha");
-                //  //worksheet.Cell(i, 28).SetDataType(XLDataType.DateTime).Style.DateFormat.Format = "dd/MM/yyyy";
-                //}
 
-
-                //Formato precio
-                worksheet.Cell(i, 2).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
-                worksheet.Cell(i, 12).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
-                worksheet.Cell(i, 23).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
-                worksheet.Cell(i, 27).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
+                worksheet.Cell(i, 2).Style.NumberFormat.Format = "#,##0.00";
+                worksheet.Cell(i, 12).Style.NumberFormat.Format = "#,##0.00";
+                worksheet.Cell(i, 23).Style.NumberFormat.Format = "#,##0.00";
+                worksheet.Cell(i, 27).Style.NumberFormat.Format = "#,##0.00";
             }
 
 
@@ -379,7 +419,17 @@ namespace Dashboard.NovaFlat.Core
                      .Fill.SetBackgroundColor(XLColor.LightGray);
 
             // Data
-            worksheet.Cell("A2").Value = data;
+            var rowIndex = 2;
+            foreach (var item in data!)
+            {
+                var columns = ColumnNames.ObtenerNombresAtributos<T>();
+                for (int i = 0; i < columns.Count; i++)
+                {
+                    var propertyValue = typeof(T).GetProperty(columns[i]!)?.GetValue(item)?.ToString();
+                    worksheet.Cell(rowIndex, i + 1).Value = propertyValue;
+                }
+                rowIndex++;
+            }
 
 
             var lastRow = worksheet.LastRowUsed().RowNumber() + 1;
@@ -388,11 +438,11 @@ namespace Dashboard.NovaFlat.Core
             {
 
                 //Formato precio
-                worksheet.Cell(i, 2).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
-                worksheet.Cell(i, 5).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
-                worksheet.Cell(i, 6).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
-                worksheet.Cell(i, 26).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
-                worksheet.Cell(i, 30).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
+                worksheet.Cell(i, 2).Style.NumberFormat.Format = "#,##0.00";
+                worksheet.Cell(i, 5).Style.NumberFormat.Format = "#,##0.00";
+                worksheet.Cell(i, 6).Style.NumberFormat.Format = "#,##0.00";
+                worksheet.Cell(i, 26).Style.NumberFormat.Format = "#,##0.00";
+                worksheet.Cell(i, 30).Style.NumberFormat.Format = "#,##0.00";
             }
 
 
@@ -561,22 +611,32 @@ namespace Dashboard.NovaFlat.Core
 
 
                 // Data
-                worksheet.Cell("A3").Value = data;
+                var rowIndex = 2;
+                foreach (var item in data!)
+                {
+                    var columns = ColumnNames.ObtenerNombresAtributos<T>();
+                    for (int i = 0; i < columns.Count; i++)
+                    {
+                        var propertyValue = typeof(T).GetProperty(columns[i]!)?.GetValue(item)?.ToString();
+                        worksheet.Cell(rowIndex, i + 1).Value = propertyValue;
+                    }
+                    rowIndex++;
+                }
                 var lastRow = worksheet.LastRowUsed().RowNumber() + 2;
                 for (int i = 3; i < lastRow - 1; i++)
                 {
-                    worksheet.Cell(i, 13).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
+                    worksheet.Cell(i, 13).Style.NumberFormat.Format = "#,##0.00";
 
-                    worksheet.Cell(i, 24).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
-                    worksheet.Cell(i, 25).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
-                    worksheet.Cell(i, 26).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
-                    worksheet.Cell(i, 28).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
-                    worksheet.Cell(i, 29).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
-                    worksheet.Cell(i, 30).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
-                    worksheet.Cell(i, 38).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
+                    worksheet.Cell(i, 24).Style.NumberFormat.Format = "#,##0.00";
+                    worksheet.Cell(i, 25).Style.NumberFormat.Format = "#,##0.00";
+                    worksheet.Cell(i, 26).Style.NumberFormat.Format = "#,##0.00";
+                    worksheet.Cell(i, 28).Style.NumberFormat.Format = "#,##0.00";
+                    worksheet.Cell(i, 29).Style.NumberFormat.Format = "#,##0.00";
+                    worksheet.Cell(i, 30).Style.NumberFormat.Format = "#,##0.00";
+                    worksheet.Cell(i, 38).Style.NumberFormat.Format = "#,##0.00";
 
-                    worksheet.Cell(i, 46).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##";
-                    worksheet.Cell(i, 47).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##";
+                    worksheet.Cell(i, 46).Style.NumberFormat.Format = "#,##";
+                    worksheet.Cell(i, 47).Style.NumberFormat.Format = "#,##";
                     //worksheet.Cell(i, 9).SetDataType(XLDataType.DateTime).Style.DateFormat.Format = "dd/MM/yyyy";
                     //worksheet.Cell(i, 10).SetDataType(XLDataType.DateTime).Style.DateFormat.Format = "dd/MM/yyyy";
                 }
@@ -711,20 +771,30 @@ namespace Dashboard.NovaFlat.Core
 
 
                 // Data
-                worksheet.Cell("A3").Value = data;
+                var rowIndex = 2;
+                foreach (var item in data!)
+                {
+                    var columns = ColumnNames.ObtenerNombresAtributos<T>();
+                    for (int i = 0; i < columns.Count; i++)
+                    {
+                        var propertyValue = typeof(T).GetProperty(columns[i]!)?.GetValue(item)?.ToString();
+                        worksheet.Cell(rowIndex, i + 1).Value = propertyValue;
+                    }
+                    rowIndex++;
+                }
 
                 var lastRow = worksheet.LastRowUsed().RowNumber() + 2;
                 for (int i = 3; i < lastRow - 1; i++)
                 {
-                    worksheet.Cell(i, 14).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
+                    worksheet.Cell(i, 14).Style.NumberFormat.Format = "#,##0.00";
 
-                    worksheet.Cell(i, 24).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
-                    worksheet.Cell(i, 25).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
-                    worksheet.Cell(i, 26).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
+                    worksheet.Cell(i, 24).Style.NumberFormat.Format = "#,##0.00";
+                    worksheet.Cell(i, 25).Style.NumberFormat.Format = "#,##0.00";
+                    worksheet.Cell(i, 26).Style.NumberFormat.Format = "#,##0.00";
 
-                    worksheet.Cell(i, 33).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
+                    worksheet.Cell(i, 33).Style.NumberFormat.Format = "#,##0.00";
 
-                    worksheet.Cell(i, 39).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
+                    worksheet.Cell(i, 39).Style.NumberFormat.Format = "#,##0.00";
 
 
 
@@ -734,20 +804,15 @@ namespace Dashboard.NovaFlat.Core
                     if (valorMesFacturaExcel.Year == 1900)
                     {
                         worksheet.Cell(i, 31).Value = "";
-                        worksheet.Cell(i, 31).SetDataType(XLDataType.Text).Style.NumberFormat.Format = "";
+
                     }
                     else
                     {
-                        worksheet.Cell(i, 31).SetDataType(XLDataType.DateTime).Style.DateFormat.Format = "dd/mm/yyyy";
+                        worksheet.Cell(i, 31).Style.DateFormat.Format = "dd/mm/yyyy";
                     }
 
-                    worksheet.Cell(i, 47).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
-                    worksheet.Cell(i, 48).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
-
-
-                    //worksheet.Cell(i, 36).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##";
-                    //worksheet.Cell(i, 37).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##";
-                    //worksheet.Cell(i, 41).SetDataType(XLDataType.Text).Style.NumberFormat.Format = "#,##";
+                    worksheet.Cell(i, 47).Style.NumberFormat.Format = "#,##0.00";
+                    worksheet.Cell(i, 48).Style.NumberFormat.Format = "#,##0.00";
 
                 }
 
@@ -825,13 +890,23 @@ namespace Dashboard.NovaFlat.Core
                      /*.Fill.SetBackgroundColor(XLColor.White)*/;
 
             // Data
-            worksheet.Cell("A3").Value = data;
+            var rowIndex = 2;
+            foreach (var item in data!)
+            {
+                var columns = ColumnNames.ObtenerNombresAtributos<T>();
+                for (int i = 0; i < columns.Count; i++)
+                {
+                    var propertyValue = typeof(T).GetProperty(columns[i]!)?.GetValue(item)?.ToString();
+                    worksheet.Cell(rowIndex, i + 1).Value = propertyValue;
+                }
+                rowIndex++;
+            }
 
             var lastRow = worksheet.LastRowUsed().RowNumber() + 1;
             for (int i = 2; i < lastRow - 1; i++)
             {
-                //worksheet.Cell(i, 12).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
-                //worksheet.Cell(i, 13).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
+                //worksheet.Cell(i, 12).Style.NumberFormat.Format = "#,##0.00";
+                //worksheet.Cell(i, 13).Style.NumberFormat.Format = "#,##0.00";
             }
 
 
@@ -878,29 +953,39 @@ namespace Dashboard.NovaFlat.Core
 
                 // Data
 
-                worksheet.Cell("A2").Value = data;
+                var rowIndex = 2;
+                foreach (var item in data!)
+                {
+                    var columns = ColumnNames.ObtenerNombresAtributos<T>();
+                    for (int i = 0; i < columns.Count; i++)
+                    {
+                        var propertyValue = typeof(T).GetProperty(columns[i]!)?.GetValue(item)?.ToString();
+                        worksheet.Cell(rowIndex, i + 1).Value = propertyValue;
+                    }
+                    rowIndex++;
+                }
 
                 var lastRow = worksheet.LastRowUsed().RowNumber() + 2;
                 for (int i = 3; i < lastRow - 1; i++)
                 {
-                    worksheet.Cell(i, 13).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
+                    worksheet.Cell(i, 13).Style.NumberFormat.Format = "#,##0.00";
 
-                    //worksheet.Cell(i, 24).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
-                    //worksheet.Cell(i, 25).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
-                    //worksheet.Cell(i, 26).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
+                    //worksheet.Cell(i, 24).Style.NumberFormat.Format = "#,##0.00";
+                    //worksheet.Cell(i, 25).Style.NumberFormat.Format = "#,##0.00";
+                    //worksheet.Cell(i, 26).Style.NumberFormat.Format = "#,##0.00";
 
-                    //worksheet.Cell(i, 33).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
+                    //worksheet.Cell(i, 33).Style.NumberFormat.Format = "#,##0.00";
 
-                    //worksheet.Cell(i, 39).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
+                    //worksheet.Cell(i, 39).Style.NumberFormat.Format = "#,##0.00";
 
 
                     //worksheet.Cell(i, 31).SetDataType(XLDataType.DateTime).Style.DateFormat.Format = "dd/mm/yyyy";
 
-                    //worksheet.Cell(i, 35).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##0.00";
+                    //worksheet.Cell(i, 35).Style.NumberFormat.Format = "#,##0.00";
 
 
-                    //worksheet.Cell(i, 36).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##";
-                    //worksheet.Cell(i, 37).SetDataType(XLDataType.Number).Style.NumberFormat.Format = "#,##";
+                    //worksheet.Cell(i, 36).Style.NumberFormat.Format = "#,##";
+                    //worksheet.Cell(i, 37).Style.NumberFormat.Format = "#,##";
                     //worksheet.Cell(i, 41).SetDataType(XLDataType.Text).Style.NumberFormat.Format = "#,##";
 
                 }

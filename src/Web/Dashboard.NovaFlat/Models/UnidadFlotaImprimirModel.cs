@@ -1,5 +1,4 @@
-﻿using System;
-namespace Dashboard.NovaFlat.Models
+﻿namespace Dashboard.NovaFlat.Models
 {
     public class UnidadFlotaImprimirModel
     {

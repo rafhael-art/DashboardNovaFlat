@@ -11,8 +11,8 @@ namespace Dashboard.UseCase.UseCase.UnidadFlota.Queries.UnidadFlotaListar
         public string? _placa { get; set; }
         public string? _estadoUnidad { get; set; }
         public string? _anio { get; set; }
-        int _Start { get; set; }
-        int _Rows { get; set; }
+        public int _Start { get; set; }
+        public int _Rows { get; set; }
     }
 }
 

@@ -12,17 +12,15 @@ var dni_searcht = "";
 var idUnidadFlota = 0;
 
 var UnidadFlota = function () {
-    debugger;
 
     var comboLocalidad = function () {
-        debugger;
         webApp.Ajax({
             url: urlListarLocalidad,
             async: false
         }, function (response) {
             $("#txtlocalidad").append('<option value="0">TODOS</option>');
-            $.each(response.Data, function (index, item) {
-                $("#txtlocalidad").append('<option value="' + item.localidad + '">' + item.localidad + '</option>');
+            $.each(response.data, function (index, item) {
+                $("#txtlocalidad").append('<option value="' + item + '">' + item + '</option>');
             });
             $("#txtlocalidad").val("0");
         }, function (response) {
@@ -38,9 +36,9 @@ var UnidadFlota = function () {
             async: false
         }, function (response) {
             $("#txtubicacion").append('<option value="0">TODOS</option>');
-            $.each(response.Data, function (index, item) {
+            $.each(response.data, function (index, item) {
                 if (item.ubicacion != '') {
-                    $("#txtubicacion").append('<option value="' + item.ubicacion + '">' + item.ubicacion + '</option>');
+                    $("#txtubicacion").append('<option value="' + item + '">' + item + '</option>');
                 }
             });
             $("#txtubicacion").val("0");
@@ -57,8 +55,8 @@ var UnidadFlota = function () {
             async: false
         }, function (response) {
             $("#txtclase").append('<option value="0">TODOS</option>');
-            $.each(response.Data, function (index, item) {
-                $("#txtclase").append('<option value="' + item.clase + '">' + item.clase + '</option>');
+            $.each(response.data, function (index, item) {
+                $("#txtclase").append('<option value="' + item + '">' + item + '</option>');
             });
             $("#txtclase").val("0");
         }, function (response) {
@@ -74,7 +72,7 @@ var UnidadFlota = function () {
             async: false
         }, function (response) {
             $("#txtestado").append('<option value="0">TODOS</option>');
-            $.each(response.Data, function (index, item) {
+            $.each(response.data, function (index, item) {
                 $("#txtestado").append('<option value="' + item.estado + '">' + item.estado + '</option>');
             });
             $("#txtestado").val("0");
@@ -91,7 +89,7 @@ var UnidadFlota = function () {
             async: false
         }, function (response) {
             $("#selecAnio").append('<option value="0">TODOS</option>');
-            $.each(response.Data, function (index, item) {
+            $.each(response.data, function (index, item) {
                 $("#selecAnio").append('<option value="' + item.IdAnio + '">' + item.valorAnio + '</option>');
             });
             $("#selecAnio").val(0);
@@ -109,10 +107,9 @@ var UnidadFlota = function () {
         webApp.Ajax({
             url: urlListaReportefooter,
         }, function (response) {
-
-            if (response.Data != null) {
-                if (response.Data.length <= 4) {
-                    $.each(response.Data, function (index, item) {
+            if (response.data != null) {
+                if (response.data.length <= 4) {
+                    $.each(response.data, function (index, item) {
                         body = ' <div class="col-sm-3 col-6">';
                         body += '<div class="description-block border-right">';
                         body += '<h5 class="description-header">' + item.Cantidad + '</h5>';
@@ -122,7 +119,7 @@ var UnidadFlota = function () {
                         divfooter.append(body);
                     });
                 } else {
-                    $.each(response.Data, function (index, item) {
+                    $.each(response.data, function (index, item) {
                         body = ' <div class="col-sm-2 col-3">';
                         body += '<div class="description-block border-right">';
                         body += '<h5 class="description-header">' + item.Cantidad + '</h5>';
@@ -388,7 +385,6 @@ var UnidadFlota = function () {
 
     return {
         init: function () {
-            debugger;
             ConfigurarDataTable();
             checkSession(function () {
                 comboLocalidad();
@@ -408,7 +404,6 @@ var UnidadFlota = function () {
 }(jQuery);
 
 function buscar(e) {
-    debugger;
     tecla = (document.all) ? e.keyCode : e.which;
     if (tecla == 13) {
         //if ($('#UnidadFlotaForm').valid()) {
@@ -420,7 +415,6 @@ function buscar(e) {
 }
 
 function buscarHistorial(e) {
-    debugger;
     tecla = (document.all) ? e.keyCode : e.which;
     if (tecla == 13) {
         //if ($('#UnidadFlotaForm').valid()) {

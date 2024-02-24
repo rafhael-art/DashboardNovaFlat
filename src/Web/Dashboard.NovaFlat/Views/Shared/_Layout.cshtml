@@ -304,7 +304,7 @@
         <!-- /.content-wrapper -->
         <footer class="main-footer text-sm">
             <strong>Copyright &copy; @DateTime.Now.Year .</strong>
-            todos los derechos reservados.
+            todos los derechos reservados.|
             <div class="float-right d-none d-sm-inline-block">
                 <b>Version</b> 1.1
             </div>
@@ -316,7 +316,6 @@
         <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->
-
 
 
     <script src="~/plugins/jquery/jquery.min.js"></script>
@@ -345,7 +344,7 @@
             metodoValueNotEquals();
             load.init();
         });</script>
-    @RenderSection("scripts", required: false)
+    @RenderSection("scripts", required: true)
 
 </body>
 </html>
