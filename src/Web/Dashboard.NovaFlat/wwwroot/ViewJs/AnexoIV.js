@@ -97,7 +97,6 @@ var AnexoIV = function () {
                 nomArchivo: nomArchivo
             }
             webApp.JsonParam(urlValidarStorage, parametros, function (response) {
-                debugger
                 if (response.Success) {
                     window.open(urlDescargarPDF + param, '_blank');
                 } else {
@@ -114,7 +113,6 @@ var AnexoIV = function () {
                 nomArchivo: nomArchivo
             }
             webApp.JsonParam(urlValidarStorage, parametros, function (response) {
-                debugger
                 if (response.Success) {
                     window.open(urlDescargarPDF + param, '_blank');
                 } else {
@@ -170,94 +168,94 @@ var AnexoIV = function () {
             "bAutoWidth": false,
             "columns": [
                 { "data": "hxuc_icorrelativo" },
-                { "data": "Clase" },
-                { "data": "PlacaInterna" },
-                { "data": "PlacaRodaje" }, // render: $.fn.dataTable.render.number(',', '.', 2)
-                { "data": "Marca" },
-                { "data": "Modelo" },
-                { "data": "Motor" },
-                { "data": "SerieVIN" },
-                { "data": "Ubicaciondepartamento" },
-                { "data": "UbicacionProvincia" },
-                { "data": "UbicacionDistrito" },
-                { "data": "Latitud" },
-                { "data": "Longitud" },
-                { "data": "CostoUnidad", render: $.fn.dataTable.render.number(',', '.', 2) },
-                { "data": "AnioFabricacion" },
-                { "data": "AnioEntregaPNP" },
-                { "data": "FechaEntregaPNP" },
-                { "data": "InicioOperaciones" },
-                { "data": "NumeroPoliza" },
-                { "data": "NumeroCertificado" },
-                { "data": "Estado" },
-                { "data": "FechaBaja" },
-                { "data": "MotivoBaja" },
-                { "data": "CostoAcumuladoTotal", render: $.fn.dataTable.render.number(',', '.', 2) },
-                { "data": "CostoAcumuladoFLAT", render: $.fn.dataTable.render.number(',', '.', 2) },
-                { "data": "CostoAcumuladoAdicional", render: $.fn.dataTable.render.number(',', '.', 2) },
-                { "data": "Flat" },
-                { "data": "CostoTotalSinIGV", render: $.fn.dataTable.render.number(',', '.', 2) }, //costo total sin igv
-                { "data": "CostoFLATSinIGV", render: $.fn.dataTable.render.number(',', '.', 2) }, //costo flat sin igv
-                { "data": "CostoAdicionalSinIGV", render: $.fn.dataTable.render.number(',', '.', 2) }, //costo adicional sin igv
-                { "data": "TipoCambio" },//T.C
+                { "data": "clase" },
+                { "data": "placaInterna" },
+                { "data": "placaRodaje" }, // render: $.fn.dataTable.render.number(',', '.', 2)
+                { "data": "marca" },
+                { "data": "modelo" },
+                { "data": "motor" },
+                { "data": "serieVIN" },
+                { "data": "ubicaciondepartamento" },
+                { "data": "ubicacionProvincia" },
+                { "data": "ubicacionDistrito" },
+                { "data": "latitud" },
+                { "data": "longitud" },
+                { "data": "costoUnidad", render: $.fn.dataTable.render.number(',', '.', 2) },
+                { "data": "anioFabricacion" },
+                { "data": "anioEntregaPNP" },
+                { "data": "fechaEntregaPNP" },
+                { "data": "inicioOperaciones" },
+                { "data": "numeroPoliza" },
+                { "data": "numeroCertificado" },
+                { "data": "estado" },
+                { "data": "fechaBaja" },
+                { "data": "motivoBaja" },
+                { "data": "costoAcumuladoTotal", render: $.fn.dataTable.render.number(',', '.', 2) },
+                { "data": "costoAcumuladoFLAT", render: $.fn.dataTable.render.number(',', '.', 2) },
+                { "data": "costoAcumuladoAdicional", render: $.fn.dataTable.render.number(',', '.', 2) },
+                { "data": "flat" },
+                { "data": "costoTotalSinIGV", render: $.fn.dataTable.render.number(',', '.', 2) }, //costo total sin igv
+                { "data": "costoFLATSinIGV", render: $.fn.dataTable.render.number(',', '.', 2) }, //costo flat sin igv
+                { "data": "costoAdicionalSinIGV", render: $.fn.dataTable.render.number(',', '.', 2) }, //costo adicional sin igv
+                { "data": "tipoCambio" },//T.C
                 {
                     "data": function (obj) {
-                        return '<p data-toggle="tooltip" title="' + obj.TallerResponsable + '">' + obj.TallerResponsable.toString().substring(0, 10) + '... </p>'
+                        return '<p data-toggle="tooltip" title="' + obj.tallerResponsable + '">' + obj.tallerResponsable.toString().substring(0, 10) + '... </p>'
                     }
                 },
-                { "data": "RUC" },
+                { "data": "ruc" },
                 {
                     "data": function (obj) {
-                        return '<a data-toggle="tooltip" title="Ver documento" style="text-decoration:underline" class="btn-verPDFRepuesto" data-nombreArchivo="' + obj.ruta_repuesto + '"  href="#">Nro° ' + obj.NPresupuesto + '</a>';
-
-                    }
-                },
-                {
-                    "data": function (obj) {
-                        return '<a style="text-decoration:underline" class="btn-verPDFFactura" data-nombreArchivo="' + obj.ruta_factura + '"  href="#">' + obj.Factura + '</a>';
+                        return '<a data-toggle="tooltip" title="Ver documento" style="text-decoration:underline" class="btn-verPDFRepuesto" data-nombreArchivo="' + obj.ruta_repuesto + '"  href="#">Nro° ' + obj.nPresupuesto + '</a>';
 
                     }
                 },
-                { "data": "Mesfactura" },
-                { "data": "Moneda" },
-                { "data": "MontoFacturaSinIGV", render: $.fn.dataTable.render.number(',', '.', 2) },
-                { "data": "TrabajoRealizado" },
-                { "data": "EstadoOperaciones" },
                 {
                     "data": function (obj) {
-                        return '<p data-toggle="tooltip" title="' + obj.MotivoIngreso + '">' + obj.MotivoIngreso.toString().substring(0, 10) + '... </p>'
+                        return '<a style="text-decoration:underline" class="btn-verPDFFactura" data-nombreArchivo="' + obj.ruta_factura + '"  href="#">' + obj.factura + '</a>';
+
+                    }
+                },
+                { "data": "mesfactura" },
+                { "data": "moneda" },
+                { "data": "montoFacturaSinIGV", render: $.fn.dataTable.render.number(',', '.', 2) },
+                { "data": "trabajoRealizado" },
+                { "data": "estadoOperaciones" },
+                {
+                    "data": function (obj) {
+                        return '<p data-toggle="tooltip" title="' + obj.motivoIngreso + '">' + obj.motivoIngreso.toString().substring(0, 10) + '... </p>'
                     }
                 },
 
-                { "data": "HoraIngreso" },
-                { "data": "FechaIngreso" },
+                { "data": "horaIngreso" },
+                { "data": "fechaIngreso" },
                 {
                     "data": function (obj) {
-                        return '<p data-toggle="tooltip" title="' + obj.NombrePolicialResponsable + '">' + obj.NombrePolicialResponsable.toString().substring(0, 10) + '... </p>'
+                        return '<p data-toggle="tooltip" title="' + obj.nombrePolicialResponsable + '">' + obj.nombrePolicialResponsable.toString().substring(0, 10) + '... </p>'
                     }
                 },
 
-                { "data": "CodigoCIP" },
-                { "data": "KmIngresoTaller", render: $.fn.dataTable.render.number(',', '.', 0) },
-                { "data": "ProximoMantenimientoKM", render: $.fn.dataTable.render.number(',', '.', 0) },
+                { "data": "codigoCIP" },
+                { "data": "kmIngresoTaller", render: $.fn.dataTable.render.number(',', '.', 0) },
+                { "data": "proximoMantenimientoKM", render: $.fn.dataTable.render.number(',', '.', 0) },
 
-                { "data": "HoraFindeServicio" },
-                { "data": "FechaFindeServicio" },
+                { "data": "horaFindeServicio" },
+                { "data": "fechaFindeServicio" },
 
-                { "data": "HoraSalida" },
-                { "data": "FechaSalida" },
+                { "data": "horaSalida" },
+                { "data": "fechaSalida" },
                 {
                     "data": function (obj) {
-                        return '<p data-toggle="tooltip" title="' + obj.NombrePolicialResponsableSalida + '">' + obj.NombrePolicialResponsableSalida.toString().substring(0, 10) + '... </p>'
+                        return '<p data-toggle="tooltip" title="' + obj.nombrePolicialResponsableSalida + '">' + obj.nombrePolicialResponsableSalida.toString().substring(0, 10) + '... </p>'
                     }
                 },
-                { "data": "CodigoCIPSalida" },
+                { "data": "codigoCIPSalida" },
 
-                { "data": "HorasdeServicio" },
-                { "data": "DiasdeServicio" },
+                { "data": "horasdeServicio" },
+                { "data": "diasdeServicio" },
 
-                { "data": "HorasTaller" },
-                { "data": "DiasTaller" },
+                { "data": "horasTaller" },
+                { "data": "diasTaller" },
                 { "data": "hxuc_nmonto_stock" },
             ],
             "aoColumnDefs": [
@@ -335,8 +333,8 @@ var AnexoIV = function () {
             async: false
         }, function (response) {
             $("#txtlocalidad").append('<option value="0">TODOS</option>');
-            $.each(response.Data, function (index, item) {
-                $("#txtlocalidad").append('<option value="' + item.localidad + '">' + item.localidad + '</option>');
+            $.each(response.data, function (index, item) {
+                $("#txtlocalidad").append('<option value="' + item + '">' + item + '</option>');
             });
             $("#txtlocalidad").val("0");
         }, function (response) {
@@ -357,7 +355,7 @@ var AnexoIV = function () {
 
         }, function (response) {
             $("#txtDepartamento").append('<option value="0">TODOS</option>');
-            $.each(response.Data, function (index, item) {
+            $.each(response.data, function (index, item) {
                 $("#txtDepartamento").append('<option value="' + item.ubicc_icod_ubicacion + '">' + item.ubicc_vnombre_ubicacion + '</option>');
             });
             $("#txtDepartamento").val("0");
@@ -388,7 +386,7 @@ var AnexoIV = function () {
             parametros: parametro
         }, function (response) {
             $("#txtProvincia").append('<option value="0">TODOS</option>');
-            $.each(response.Data, function (index, item) {
+            $.each(response.data, function (index, item) {
                 $("#txtProvincia").append('<option value="' + item.ubicc_icod_ubicacion + '">' + item.ubicc_vnombre_ubicacion + '</option>');
             });
             $("#txtProvincia").val("0");
@@ -412,7 +410,7 @@ var AnexoIV = function () {
             async: false
         }, function (response) {
             $("#txtubicacion").append('<option value="0">TODOS</option>');
-            $.each(response.Data, function (index, item) {
+            $.each(response.data, function (index, item) {
                 if (item.ubicacion != '') {
                     $("#txtubicacion").append('<option value="' + item.ubicacion + '">' + item.ubicacion + '</option>');
                 }
@@ -431,8 +429,8 @@ var AnexoIV = function () {
             async: false
         }, function (response) {
             $("#txtclase").append('<option value="0">TODOS</option>');
-            $.each(response.Data, function (index, item) {
-                $("#txtclase").append('<option value="' + item.clase + '">' + item.clase + '</option>');
+            $.each(response.data, function (index, item) {
+                $("#txtclase").append('<option value="' + item + '">' + item + '</option>');
             });
             $("#txtclase").val("0");
         }, function (response) {
@@ -448,7 +446,7 @@ var AnexoIV = function () {
             async: false
         }, function (response) {
             $("#txtunidad").append('<option value="0">TODOS</option>');
-            $.each(response.Data, function (index, item) {
+            $.each(response.data, function (index, item) {
                 $("#txtunidad").append('<option value="' + item.estado + '">' + item.estado + '</option>');
             });
             $("#txtunidad").val("0");
@@ -465,8 +463,8 @@ var AnexoIV = function () {
             async: false
         }, function (response) {
             $("#txtmarca").append('<option value="0">TODOS</option>');
-            $.each(response.Data, function (index, item) {
-                $("#txtmarca").append('<option value="' + item.marca + '">' + item.marca + '</option>');
+            $.each(response.data, function (index, item) {
+                $("#txtmarca").append('<option value="' + item + '">' + item + '</option>');
             });
             $("#txtmarca").val("0");
         }, function (response) {
@@ -482,8 +480,8 @@ var AnexoIV = function () {
             async: false
         }, function (response) {
             $("#txtmodelo").append('<option value="0">TODOS</option>');
-            $.each(response.Data, function (index, item) {
-                $("#txtmodelo").append('<option value="' + item.modelo + '">' + item.modelo + '</option>');
+            $.each(response.data, function (index, item) {
+                $("#txtmodelo").append('<option value="' + item + '">' + item + '</option>');
             });
             $("#txtmodelo").val("0");
         }, function (response) {
@@ -496,22 +494,19 @@ var AnexoIV = function () {
     return {
         init: function () {
             ConfigurarDataTable();
-            checkSession(function () {
-                debugger
-                visualizarDataTableAnexoIV();
-                ConfigurarDataTable();
-                comboDepatamento();
-                comboProvincia();
-                comboLocalidad();
-                comboUbicacion();
-                comboClase();
-                comboEstadoUnidad();
-                comboMarca();
-                comboModelo();
-                eventos();
+            visualizarDataTableAnexoIV();
+            ConfigurarDataTable();
+            comboDepatamento();
+            comboProvincia();
+            comboLocalidad();
+            comboUbicacion();
+            comboClase();
+            comboEstadoUnidad();
+            comboMarca();
+            comboModelo();
+            eventos();
 
 
-            });
         }
     }
 
@@ -520,8 +515,6 @@ var AnexoIV = function () {
 function buscar(e) {
     tecla = (document.all) ? e.keyCode : e.which;
     if (tecla == 13) {
-        checkSession(function () {
-            dataTableAnexoIV.ajax.reload();
-        });
+        dataTableAnexoIV.ajax.reload();
     }
 }

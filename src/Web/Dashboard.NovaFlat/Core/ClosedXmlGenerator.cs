@@ -1,6 +1,4 @@
-﻿using System;
-using System.Drawing;
-using ClosedXML.Excel;
+﻿using ClosedXML.Excel;
 using Dashboard.Common.ExcelSettings;
 
 namespace Dashboard.NovaFlat.Core
@@ -57,6 +55,7 @@ namespace Dashboard.NovaFlat.Core
                     }
                     rowIndex++;
                 }
+                //PrintData(worksheet, data);
 
 
                 var lastRow = worksheet.LastRowUsed().RowNumber() + 1;
@@ -91,8 +90,21 @@ namespace Dashboard.NovaFlat.Core
                 workbook = new XLWorkbook();
                 throw;
             }
-
             return workbook;
+        }
+
+        public static void PrintData(IXLWorksheet worksheet, List<T> data, int rowIndex)
+        {
+            foreach (var item in data!)
+            {
+                var columns = ColumnNames.ObtenerNombresAtributos<T>();
+                for (int i = 0; i < columns.Count; i++)
+                {
+                    var propertyValue = typeof(T).GetProperty(columns[i]!)?.GetValue(item)?.ToString();
+                    worksheet.Cell(rowIndex, i + 1).Value = propertyValue;
+                }
+                rowIndex++;
+            }
         }
 
         public static XLWorkbook GenerateWorkBook_UnidadFlota(List<T> data)
@@ -126,25 +138,14 @@ namespace Dashboard.NovaFlat.Core
                      .Fill.SetBackgroundColor(XLColor.LightGray);
 
             // Data
-
-
-            var rowIndex = 2;
-            foreach (var item in data!)
-            {
-                var columns = ColumnNames.ObtenerNombresAtributos<T>();
-                for (int i = 0; i < columns.Count; i++)
-                {
-                    var propertyValue = typeof(T).GetProperty(columns[i]!)?.GetValue(item)?.ToString();
-                    worksheet.Cell(rowIndex, i + 1).Value = propertyValue;
-                }
-                rowIndex++;
-            }
+            PrintData(worksheet, data, 2);
 
             var lastRow = worksheet.LastRowUsed().RowNumber() + 1;
-            for (int i = 2; i < lastRow - 1; i++)
+            for (int i = 2; i < lastRow; i++)
             {
-                //worksheet.Cell(i, 12).Style.NumberFormat.Format = "#,##0.00";
-                worksheet.Cell(i, 13).Style.NumberFormat.Format = "#,##0.00";
+                worksheet.Cell(i, 12).Style.NumberFormat.Format = "#,##0.00";
+                worksheet.Cell(i, 12).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Right;
+
             }
 
             worksheet.Range("A1:O1").SetAutoFilter(true);
@@ -214,17 +215,7 @@ namespace Dashboard.NovaFlat.Core
                      /*.Fill.SetBackgroundColor(XLColor.White)*/;
 
             // Data
-            var rowIndex = 2;
-            foreach (var item in data!)
-            {
-                var columns = ColumnNames.ObtenerNombresAtributos<T>();
-                for (int i = 0; i < columns.Count; i++)
-                {
-                    var propertyValue = typeof(T).GetProperty(columns[i]!)?.GetValue(item)?.ToString();
-                    worksheet.Cell(rowIndex, i + 1).Value = propertyValue;
-                }
-                rowIndex++;
-            }
+            PrintData(worksheet, data, 3);
 
             var lastRow = worksheet.LastRowUsed().RowNumber() + 1;
             for (int i = 2; i < lastRow - 1; i++)
@@ -269,19 +260,7 @@ namespace Dashboard.NovaFlat.Core
                      .Fill.SetBackgroundColor(XLColor.LightGray);
 
             // Data
-            var rowIndex = 2;
-            foreach (var item in data!)
-            {
-                var columns = ColumnNames.ObtenerNombresAtributos<T>();
-                for (int i = 0; i < columns.Count; i++)
-                {
-                    var propertyValue = typeof(T).GetProperty(columns[i]!)?.GetValue(item)?.ToString();
-                    worksheet.Cell(rowIndex, i + 1).Value = propertyValue;
-                }
-                rowIndex++;
-            }
-
-
+            PrintData(worksheet, data, 2);
 
             worksheet.Columns().AdjustToContents();
             return workbook;
@@ -335,17 +314,7 @@ namespace Dashboard.NovaFlat.Core
                      .Fill.SetBackgroundColor(XLColor.LightGray);
 
             // Data
-            var rowIndex = 2;
-            foreach (var item in data!)
-            {
-                var columns = ColumnNames.ObtenerNombresAtributos<T>();
-                for (int i = 0; i < columns.Count; i++)
-                {
-                    var propertyValue = typeof(T).GetProperty(columns[i]!)?.GetValue(item)?.ToString();
-                    worksheet.Cell(rowIndex, i + 1).Value = propertyValue;
-                }
-                rowIndex++;
-            }
+            PrintData(worksheet, data, 2);
 
             var lastRow = worksheet.LastRowUsed().RowNumber() + 1;
 
@@ -419,18 +388,7 @@ namespace Dashboard.NovaFlat.Core
                      .Fill.SetBackgroundColor(XLColor.LightGray);
 
             // Data
-            var rowIndex = 2;
-            foreach (var item in data!)
-            {
-                var columns = ColumnNames.ObtenerNombresAtributos<T>();
-                for (int i = 0; i < columns.Count; i++)
-                {
-                    var propertyValue = typeof(T).GetProperty(columns[i]!)?.GetValue(item)?.ToString();
-                    worksheet.Cell(rowIndex, i + 1).Value = propertyValue;
-                }
-                rowIndex++;
-            }
-
+            PrintData(worksheet, data, 2);
 
             var lastRow = worksheet.LastRowUsed().RowNumber() + 1;
 
@@ -611,17 +569,8 @@ namespace Dashboard.NovaFlat.Core
 
 
                 // Data
-                var rowIndex = 2;
-                foreach (var item in data!)
-                {
-                    var columns = ColumnNames.ObtenerNombresAtributos<T>();
-                    for (int i = 0; i < columns.Count; i++)
-                    {
-                        var propertyValue = typeof(T).GetProperty(columns[i]!)?.GetValue(item)?.ToString();
-                        worksheet.Cell(rowIndex, i + 1).Value = propertyValue;
-                    }
-                    rowIndex++;
-                }
+                PrintData(worksheet, data, 3);
+
                 var lastRow = worksheet.LastRowUsed().RowNumber() + 2;
                 for (int i = 3; i < lastRow - 1; i++)
                 {
@@ -771,17 +720,7 @@ namespace Dashboard.NovaFlat.Core
 
 
                 // Data
-                var rowIndex = 2;
-                foreach (var item in data!)
-                {
-                    var columns = ColumnNames.ObtenerNombresAtributos<T>();
-                    for (int i = 0; i < columns.Count; i++)
-                    {
-                        var propertyValue = typeof(T).GetProperty(columns[i]!)?.GetValue(item)?.ToString();
-                        worksheet.Cell(rowIndex, i + 1).Value = propertyValue;
-                    }
-                    rowIndex++;
-                }
+                PrintData(worksheet, data, 3);
 
                 var lastRow = worksheet.LastRowUsed().RowNumber() + 2;
                 for (int i = 3; i < lastRow - 1; i++)
@@ -890,17 +829,7 @@ namespace Dashboard.NovaFlat.Core
                      /*.Fill.SetBackgroundColor(XLColor.White)*/;
 
             // Data
-            var rowIndex = 2;
-            foreach (var item in data!)
-            {
-                var columns = ColumnNames.ObtenerNombresAtributos<T>();
-                for (int i = 0; i < columns.Count; i++)
-                {
-                    var propertyValue = typeof(T).GetProperty(columns[i]!)?.GetValue(item)?.ToString();
-                    worksheet.Cell(rowIndex, i + 1).Value = propertyValue;
-                }
-                rowIndex++;
-            }
+            PrintData(worksheet, data, 3);
 
             var lastRow = worksheet.LastRowUsed().RowNumber() + 1;
             for (int i = 2; i < lastRow - 1; i++)
@@ -953,40 +882,12 @@ namespace Dashboard.NovaFlat.Core
 
                 // Data
 
-                var rowIndex = 2;
-                foreach (var item in data!)
-                {
-                    var columns = ColumnNames.ObtenerNombresAtributos<T>();
-                    for (int i = 0; i < columns.Count; i++)
-                    {
-                        var propertyValue = typeof(T).GetProperty(columns[i]!)?.GetValue(item)?.ToString();
-                        worksheet.Cell(rowIndex, i + 1).Value = propertyValue;
-                    }
-                    rowIndex++;
-                }
+                PrintData(worksheet, data, 2);
 
                 var lastRow = worksheet.LastRowUsed().RowNumber() + 2;
                 for (int i = 3; i < lastRow - 1; i++)
                 {
                     worksheet.Cell(i, 13).Style.NumberFormat.Format = "#,##0.00";
-
-                    //worksheet.Cell(i, 24).Style.NumberFormat.Format = "#,##0.00";
-                    //worksheet.Cell(i, 25).Style.NumberFormat.Format = "#,##0.00";
-                    //worksheet.Cell(i, 26).Style.NumberFormat.Format = "#,##0.00";
-
-                    //worksheet.Cell(i, 33).Style.NumberFormat.Format = "#,##0.00";
-
-                    //worksheet.Cell(i, 39).Style.NumberFormat.Format = "#,##0.00";
-
-
-                    //worksheet.Cell(i, 31).SetDataType(XLDataType.DateTime).Style.DateFormat.Format = "dd/mm/yyyy";
-
-                    //worksheet.Cell(i, 35).Style.NumberFormat.Format = "#,##0.00";
-
-
-                    //worksheet.Cell(i, 36).Style.NumberFormat.Format = "#,##";
-                    //worksheet.Cell(i, 37).Style.NumberFormat.Format = "#,##";
-                    //worksheet.Cell(i, 41).SetDataType(XLDataType.Text).Style.NumberFormat.Format = "#,##";
 
                 }
 

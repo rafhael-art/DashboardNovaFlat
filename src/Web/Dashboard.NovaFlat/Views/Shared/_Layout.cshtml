@@ -34,6 +34,7 @@
     <script>
         var baseUrl = "@Url.Content("~")";
         var urlDatatableLanguage = baseUrl + "/DataTable/Internationalisation/es.txt";
+        console.log(baseUrl);
     </script>
     <link href="~/css/Loader.css" rel="stylesheet" />
     @RenderSection("styles", required: false)
@@ -202,7 +203,7 @@
                             {
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="@Url.Action("Index" ,"AnexoIV",new {Id= "0"})" class="nav-link ">
+                                        <a href="@Url.Action("Index" ,"AnexoIV")" class="nav-link ">
                                             <i class="fa fa-chart-bar"></i>
                                             <p>Anexo IV Reporte de Seguimiento</p>
                                         </a>

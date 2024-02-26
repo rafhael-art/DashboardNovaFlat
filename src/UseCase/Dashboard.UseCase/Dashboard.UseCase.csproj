@@ -28,11 +28,12 @@
     <None Remove="UseCase\Common\Queries\UnidadFlotaSelect\" />
     <None Remove="UseCase\AnexoIV\" />
     <None Remove="UseCase\AnexoIV\Queries\" />
-    <None Remove="UseCase\AnexoIV\Queries\EstadoSelect\" />
     <None Remove="Mappings\" />
     <None Remove="UseCase\ReporteEstadoUnidad\" />
     <None Remove="UseCase\ReporteEstadoUnidad\Queries\" />
     <None Remove="UseCase\ReporteEstadoUnidadLima\" />
+    <None Remove="UseCase\Common\Queries\EstadoSelect\" />
+    <None Remove="UseCase\AnexoIV\Queries\AnexoIVLista\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Extensions\" />
@@ -56,11 +57,12 @@
     <Folder Include="UseCase\Common\Queries\UnidadFlotaSelect\" />
     <Folder Include="UseCase\AnexoIV\" />
     <Folder Include="UseCase\AnexoIV\Queries\" />
-    <Folder Include="UseCase\AnexoIV\Queries\EstadoSelect\" />
     <Folder Include="Mappings\" />
     <Folder Include="UseCase\ReporteEstadoUnidad\" />
     <Folder Include="UseCase\ReporteEstadoUnidad\Queries\" />
     <Folder Include="UseCase\ReporteEstadoUnidadLima\" />
+    <Folder Include="UseCase\Common\Queries\EstadoSelect\" />
+    <Folder Include="UseCase\AnexoIV\Queries\AnexoIVLista\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Persistence\Dashboard.Persistence\Dashboard.Persistence.csproj" />

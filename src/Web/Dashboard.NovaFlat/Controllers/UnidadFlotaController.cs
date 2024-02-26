@@ -21,7 +21,6 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using Microsoft.AspNetCore.Http;
 
 
 namespace Dashboard.NovaFlat.Controllers
@@ -439,7 +438,7 @@ namespace Dashboard.NovaFlat.Controllers
                     numero_certificado = unidad.numero_certificado,
                     valor_asegurado = unidad.valor_asegurado,
                     monto_deducido = unidad.monto_deducido,
-                    fecha_inicio_operacion = unidad.fecha_inicio_operacion,
+                    fecha_inicio_operacion = unidad.fecha_inicio_operacion!.Contains("1900") ? "" : unidad.fecha_inicio_operacion,
                     ufc_dcosto_unidad = unidad.ufc_dcosto_unidad
                 });
 
