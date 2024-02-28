@@ -39,6 +39,8 @@
     <None Remove="UseCase\AnexoV\Queries\" />
     <None Remove="UseCase\AnexoV\Queries\AnexoVLista\" />
     <None Remove="UseCase\Common\Queries\FacturaSelect\" />
+    <None Remove="UseCase\ActualizarPassword\" />
+    <None Remove="UseCase\ActualizarPassword\Commands\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Extensions\" />
@@ -73,6 +75,8 @@
     <Folder Include="UseCase\AnexoV\Queries\" />
     <Folder Include="UseCase\AnexoV\Queries\AnexoVLista\" />
     <Folder Include="UseCase\Common\Queries\FacturaSelect\" />
+    <Folder Include="UseCase\ActualizarPassword\" />
+    <Folder Include="UseCase\ActualizarPassword\Commands\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Persistence\Dashboard.Persistence\Dashboard.Persistence.csproj" />

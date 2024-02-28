@@ -1,0 +1,500 @@
+﻿
+@{
+    ViewBag.Title = "Vehículo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section styles{
+    <link href="~/plugins/datatables-bs4/css/dataTables.bootstrap4.css" rel="stylesheet" />
+    <link href="~/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" />
+    <!-- Toastr -->
+    <link href="~/plugins/toastr/toastr.min.css" rel="stylesheet" />
+    <link href="~/css/Custumer.css" rel="stylesheet" />
+}
+
+<div class="content-header">
+
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h3 class="m-0 text-dark">Registro Datos del Vehículo</h3>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index","Dashboard")"><i class="fas fa-home"></i> Inicio</a></li>
+                    <li class="breadcrumb-item">Reportes</li>
+                    <li class="breadcrumb-item active">Registro Datos del Vehículo</li>
+
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+
+    <div class="card card-default">
+        <!-- /.card-header -->
+        <div class="card-body" style="display: block;">
+            <div class="row">
+
+
+                <div class="form-group col-sm-2">
+                    <label for="txtplaca">Placa</label>
+                    <div class="col-xs-5">
+                        <input type="text" id="txtplaca" autocomplete="off" class="form-control input-sm" onkeypress="buscar(event)">
+                    </div>
+                </div>
+
+                <div class="form-group col-sm-2">
+                    <label for="txtEstado">Estado </label>
+                    <div class="col-xs-3">
+                        <select id="txtEstado" class="form-control input-sm"></select>
+                    </div>
+                </div>
+
+                <div class="form-group col-sm-2">
+                    <label for="txtFechaDesde">Fecha Desde:</label>
+                    <div class="col-xs-5">
+                        <input type="text" id="txtFechaDesde" autocomplete="off" class="form-control input-sm" onkeypress="buscar(event)">
+                    </div>
+                </div>
+
+                <div class="form-group col-sm-2">
+                    <label for="txtfechaHasta">Fecha Hasta:</label>
+                    <div class="col-xs-5">
+                        <input type="text" id="txtfechaHasta" autocomplete="off" class="form-control input-sm" onkeypress="buscar(event)">
+                    </div>
+                </div>
+
+
+                <div class="form-group btn-buscar">
+                    <div class="col-xs-5">
+                        <button type="button" class="btn btn-default btn-sm" id="btn-buscar">Buscar</button>
+                    </div>
+                </div>
+
+                <div class="form-group btn-buscar ">
+                    <div class="col-xs-5">
+                        <button type="button" class="btn btn-success btn-sm" id="btn-exportar_excel">Exportar a Xlsx <i class="fas fa-download"></i></button>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.row -->
+        </div>
+
+    </div>
+
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+
+                    <!-- /.card-header -->
+                    <div class="card-body">
+
+                        <table id="DataTableVehiculo" class="table table-bordered table-hover" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th style="background-color: darkgray">Opcion</th>
+                                    <th style="background-color: darkgray">Clase</th>
+                                    <th style="background-color: darkgray">Placa interna</th>
+                                    <th style="background-color: darkgray">Placa rodaje</th>
+                                    <th style="background-color: darkgray">Marca</th>
+                                    <th style="background-color: darkgray">Modelo</th>
+                                    <th style="background-color: darkgray">N° Motor</th>
+                                    <th style="background-color: darkgray">N° Serie-VIN</th>
+                                    <th style="background-color: darkgray">Depa</th>
+                                    <th style="background-color: darkgray">Provincia</th>
+                                    <th style="background-color: darkgray">Ciudad</th>
+                                    <th style="background-color: darkgray">Latitud</th>
+                                    <th style="background-color: darkgray">Longitud</th>
+                                    <th style="background-color: darkgray">Costo.Uni</th>
+                                    <th style="background-color: darkgray">Año Fabricacion</th>
+                                    <th style="background-color: darkgray">Año entrega PNP</th>
+                                    <th style="background-color: darkgray">Fecha entrega PNP</th>
+                                    <th style="background-color: darkgray">Inicio Operaciones</th>
+                                    <th style="background-color: darkgray">Nro poliza</th>
+                                    <th style="background-color: darkgray">Nro Certificado</th>
+                                    <th style="background-color: darkgray">Estado</th>
+                                    <th style="background-color: darkgray">Fecha baja</th>
+                                    <th style="background-color: darkgray">Motivo baja</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+</div>
+
+<div class="modal fade" id="modal-actualizarVehiculo" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Actualizar vehiculo <span id="title-modal-vehiculo"></span> </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form role="form" id="fromRegistroVehiculo">
+                <input hidden name="vehc_icod_flota" id="vehc_icod_flota" />
+                <input hidden name="vehc_icod_vehiculo" id="vehc_icod_vehiculo" />
+                <input hidden name="ufc_iid_unidades_mysql" id="ufc_iid_unidades_mysql" />
+                <input hidden name="ubicc_icod_ubigeo" id="ubicc_icod_ubigeo" />
+                <div class="modal-body">
+
+                    <!-- /.card-start -->
+                    <div class="card-body">
+                        <div class="card card-default" style="margin-bottom : 0 !important">
+                            <div class="card-body">
+
+                                <div class="row">
+
+                                    <div class="form-group col-sm-2">
+                                        <label for="vehc_iid_vehiculo">Código</label>
+                                        <div class="col-xs-12">
+                                            <input type="text" id="vehc_iid_vehiculo" name="vehc_iid_vehiculo" autocomplete="off" class="form-control input-sm" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-sm-3">
+                                        <label for="vehc_vplaca">N° de Placa</label>
+                                        <div class="col-xs-12">
+                                            <input type="text" id="vehc_vplaca" name="vehc_vplaca" autocomplete="off" class="form-control input-sm">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-sm-3">
+                                        <label for="vehc_sfecha_registro">Fecha Registro</label>
+                                        <div class="col-xs-12">
+                                            <input type="text" id="vehc_sfecha_registro" name="vehc_sfecha_registro" autocomplete="off" class="form-control input-sm">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group col-sm-3" hidden>
+                                        <label for="vehc_icod_situacion">Situación</label>
+                                        <div class="col-xs-12">
+                                            <select id="vehc_icod_situacion" name="vehc_icod_situacion" class="form-control input-sm">
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-end -->
+                    <!-- /.card-start -->
+                    <div class="card-body">
+                        <div class="card card-default" style="margin-bottom : 0 !important">
+                            <div class="card-body">
+
+                                <!-- /.row start -->
+                                <div class="row">
+
+                                    <div class="form-group col-sm-3">
+                                        <label for="vehc_icod_marca">Marca</label>
+                                        <div class="col-xs-12">
+                                            <select id="vehc_icod_marca" name="vehc_icod_marca" class="form-control input-sm">
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-sm-3">
+                                        <label for="vehc_icod_modelo">Modelo</label>
+                                        <div class="col-xs-12">
+                                            <select id="vehc_icod_modelo" name="vehc_icod_modelo" class="form-control input-sm"></select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-sm-3" style="max-width : 21% !important">
+                                        <label for="vehc_icod_anio">Año</label>
+                                        <div class="col-xs-12">
+                                            <select id="vehc_icod_anio" name="vehc_icod_anio" class="form-control input-sm"> </select>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group col-sm-3">
+                                        <label for="vehc_vmotor">Motor</label>
+                                        <div class="col-xs-12">
+                                            <input type="text" id="vehc_vmotor" name="vehc_vmotor" autocomplete="off" class="form-control input-sm">
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- /.row end -->
+                                <!-- /.row start -->
+                                <div class="row">
+
+                                    <div class="form-group col-sm-3">
+                                        <label for="vehc_vcolor">Color</label>
+                                        <div class="col-xs-12">
+                                            <input type="text" id="vehc_vcolor" name="vehc_vcolor" autocomplete="off" class="form-control input-sm">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-sm-3">
+                                        <label for="vehc_vvin">VIN</label>
+                                        <div class="col-xs-12">
+                                            <input type="text" id="vehc_vvin" name="vehc_vvin" autocomplete="off" class="form-control input-sm">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-sm-2">
+                                        <label for="vehc_vkilometros">Km</label>
+                                        <div class="col-xs-12">
+                                            <input type="text" id="vehc_vkilometros" name="vehc_vkilometros" autocomplete="off" class="form-control input-sm">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group col-sm-3">
+                                        <label for="vehc_icod_estado">Estado</label>
+                                        <div class="col-xs-12">
+                                            <select id="vehc_icod_estado" name="vehc_icod_estado" class="form-control input-sm"> </select>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- /.row end -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-end -->
+                    <!-- /.card-start -->
+                    <div class="card-body">
+                        <div class="card card-default" style="margin-bottom : 0 !important">
+                            <div class="card-body">
+
+                                <!-- /.row start -->
+                                <div class="row">
+
+                                    <div class="form-group col-sm-3" hidden>
+                                        <label for="ubicc_icod_ubicacion">Ubicación</label>
+                                        <div class="col-xs-12">
+                                            <select id="ubicc_icod_ubicacion" name="ubicc_icod_ubicacion" class="form-control input-sm"></select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-sm-3">
+                                        <label for="txtDepartamento">Departamento</label>
+                                        <div class="col-xs-12">
+                                            <select id="txtDepartamento" name="txtDepartamento" class="form-control input-sm"></select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-sm-3" style="max-width : 23% !important">
+                                        <label for="txtProvincia">Provincia</label>
+                                        <div class="col-xs-12">
+                                            <select id="txtProvincia" name="txtProvincia" class="form-control input-sm">
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group col-sm-3" style="max-width : 23% !important">
+                                        <label for="txtDistrito">Ciudad</label>
+                                        <div class="col-xs-11">
+                                            <select id="txtDistrito" name="txtDistrito" class="form-control input-sm"></select>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- /.row end -->
+                                <!-- /.row start -->
+                                <div class="row">
+
+                                    <div class="form-group col-sm-3">
+                                        <label for="vehc_latitud">Latitud</label>
+                                        <div class="col-xs-12">
+                                            <input type="text" id="vehc_latitud" name="vehc_latitud" autocomplete="off" class="form-control input-sm">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-sm-3">
+                                        <label for="vehc_longitud">Longitud</label>
+                                        <div class="col-xs-12">
+                                            <input type="text" id="vehc_longitud" name="vehc_longitud" autocomplete="off" class="form-control input-sm">
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- /.row end -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-end -->
+                    <!-- /.card-start -->
+                    <div class="card-body">
+                        <div class="card card-default" style="margin-bottom : 0 !important">
+                            <div class="card-body">
+
+                                <!-- /.row start -->
+                                <div class="row">
+
+                                    <div class="form-group col-sm-4">
+                                        <label for="vehc_ncosto_adquisicion">Costo Adquisición</label>
+                                        <div class="col-xs-12">
+                                            <input type="text" id="vehc_ncosto_adquisicion" name="vehc_ncosto_adquisicion" autocomplete="off" class="form-control input-sm">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-sm-4">
+                                        <label for="vehc_vnumero_poliza">Número poliza</label>
+                                        <div class="col-xs-12">
+                                            <input type="text" id="vehc_vnumero_poliza" name="vehc_vnumero_poliza" autocomplete="off" class="form-control input-sm">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-sm-3">
+                                        <label for="vehc_vnumero_certificado">Número Certificado</label>
+                                        <div class="col-xs-12">
+                                            <input type="text" id="vehc_vnumero_certificado" name="vehc_vnumero_certificado" autocomplete="off" class="form-control input-sm">
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- /.row end -->
+                                <!-- /.row start -->
+                                <div class="row">
+
+                                    <div class="form-group col-sm-4">
+                                        <label for="vehc_nvalor_asegurado">Valor Asegurado</label>
+                                        <div class="col-xs-12">
+                                            <input type="text" id="vehc_nvalor_asegurado" name="vehc_nvalor_asegurado" autocomplete="off" class="form-control input-sm">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-sm-4">
+                                        <label for="vehc_nmonto_deducible">Monto Deducible</label>
+                                        <div class="col-xs-12">
+                                            <input type="text" id="vehc_nmonto_deducible" name="vehc_nmonto_deducible" autocomplete="off" class="form-control input-sm">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-sm-3">
+                                        <label for="vehc_sfecha_inicio_operaciones">Inicio Operaciones</label>
+                                        <div class="col-xs-12">
+                                            <input type="text" id="vehc_sfecha_inicio_operaciones" name="vehc_sfecha_inicio_operaciones" autocomplete="off" class="form-control input-sm">
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- /.row end -->
+                                <!-- /.row start -->
+                                <div class="row">
+
+                                    <div class="form-group col-sm-4">
+                                        <label for="vehc_vplaca_rodaje">Placa Rodaje</label>
+                                        <div class="col-xs-12">
+                                            <input type="text" id="vehc_vplaca_rodaje" name="vehc_vplaca_rodaje" autocomplete="off" class="form-control input-sm">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-sm-4">
+                                        <label for="vehc_dcosto_unidad">Costo Unidad </label>
+                                        <div class="col-xs-12">
+                                            <input type="text" id="vehc_dcosto_unidad" name="vehc_dcosto_unidad" autocomplete="off" class="form-control input-sm">
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <!-- /.row end -->
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-end -->
+                    <!-- /.card-start -->
+                    <div class="card-body">
+                        <div class="card card-default" style="margin-bottom : 0 !important">
+                            <div class="card-body">
+
+                                <!-- /.row start -->
+                                <div class="row">
+
+                                    <div class="form-group col-sm-4">
+                                        <label for="vehc_fecha_entrega_pnp">Fecha de Entrega PNP</label>
+                                        <div class="col-xs-5 custom-control-inline" style="margin-right: 0rem !important;">
+                                            <input type="text" id="vehc_fecha_entrega_pnp" name="vehc_fecha_entrega_pnp" autocomplete="off" class="form-control input-sm">
+                                            <button onclick="fClearFechaEntregaPNP()" data-toggle="tooltip" data-placement="bottom" title="Borrar Fecha de Entrega PNP" type="button" class="btnLimpiarFacturas btnLimpiar"><i class="fas fa-eraser"></i></button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- /.row end -->
+                                <!-- /.row start -->
+                                <div class="row">
+
+                                    <div class="form-group col-sm-3">
+                                        <label for="vehc_fecha_baja">Fecha de Baja</label>
+                                        <div class="col-xs-5 custom-control-inline" style="margin-right: 0rem !important;">
+                                            <input type="text" id="vehc_fecha_baja" name="vehc_fecha_baja" autocomplete="off" class="form-control input-sm">
+                                            <button onclick="fClearFechaBaja()" data-toggle="tooltip" data-placement="bottom" title="Borrar Fecha Baja" type="button" class="btnLimpiarFacturas btnLimpiar"><i class="fas fa-eraser"></i></button>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-sm-3" hidden>
+                                        <label for="vehc_icod_baja">Motivo Baja</label>
+                                        <div class="col-xs-12">
+                                            <select type="text" id="vehc_icod_baja" name="vehc_icod_baja" autocomplete="off" class="form-control input-sm">
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-sm-8">
+                                        <label for="vehc_motivo_baja"> Motivo Baja </label>
+                                        <div class="col-xs-12">
+                                            <input type="text" id="vehc_motivo_baja" name="vehc_motivo_baja" autocomplete="off" class="form-control input-sm">
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- /.row end -->
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-end -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="btn-guardar">Guardar</button>
+                </div>
+            </form>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+
+
+@section scripts{
+    <script src="~/plugins/datatables/jquery.dataTables.js"></script>
+    <script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+    <script src="~/plugins/daterangepicker/daterangepicker.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.10.21/dataRender/datetime.js" charset="utf8"></script>
+    <script src="~/js/date-dd-MMM-yyyy.js"></script>
+    <script src="~/ViewJs/Vehiculo.js"></script>
+    <script type="text/javascript">$(document).ready(function () {
+            Vehiculo.init();
+        });
+
+        initializaDate();</script>
+
+}

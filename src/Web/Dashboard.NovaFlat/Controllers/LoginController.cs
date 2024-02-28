@@ -74,8 +74,8 @@ public class LoginController : BaseController
         try
         {
 
-            string passwordencriptado = codec(loginDTO.Password!.Trim());
-            var query = new GetOptionsbyUser() { _pass = passwordencriptado, _Usuario = loginDTO.Username };
+            string passwordencriptado = EncriptarSide.codec(loginDTO.Password!.Trim());
+            var query = new GetUserByUserAndPasswordQuery() { _pass = passwordencriptado, _Usuario = loginDTO.Username };
             var usuario = await _mediator.Send(query);
 
             if (usuario.u_vUsername != null)
@@ -133,18 +133,7 @@ public class LoginController : BaseController
         return Json(jsonResponse);
     }
 
-    public string codec(string pswd)
-    {
-        string key = "";
-        string ProcessedKey = "";
-        for (int i = 0; i < pswd.Length; i++)
-        {
-            key = key + EncriptarSide.CaseSwitchIn(pswd.Substring(i, 1));
-        }
 
-        ProcessedKey = EncriptarSide.Encriptar(key, "pass3Dg@r1986", "3Dg@rClNto", "MD5", 2, "@1A2b3C4d5E6f7G8", 128);
-        return ProcessedKey;
-    }
     private UsuarioLogin UsuarioDTO(Usuario usuario)
     {
         UsuarioLogin dto = new UsuarioLogin();

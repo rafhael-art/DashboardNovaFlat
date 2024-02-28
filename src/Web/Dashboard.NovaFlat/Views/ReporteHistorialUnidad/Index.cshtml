@@ -1,0 +1,406 @@
+﻿
+@{
+    ViewBag.Title = "Reporte de historial";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <link href="~/plugins/datatables-bs4/css/dataTables.bootstrap4.css" rel="stylesheet" />
+    <!-- Toastr -->
+    <link href="~/plugins/toastr/toastr.min.css" rel="stylesheet" />
+    <link href="~/css/Custumer.css" rel="stylesheet" />
+    <link href="~/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" />
+
+    <link href="~/multiselect/bootstrap-multiselect.css" rel="stylesheet" />
+}
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h3 class="m-0 text-dark">Historial de unidades</h3>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index","Dashboard")"><i class="fas fa-home"></i> Inicio</a></li>
+                    <li class="breadcrumb-item">Reportes</li>
+                    <li class="breadcrumb-item active">Historial de unidades</li>
+
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+
+    <div class="card card-default">
+        <!-- /.card-header -->
+        <div class="card-body" style="display: block;">
+            <div class="row">
+
+                <div class="form-group col-sm-2">
+                    <label for="txtlocalidad">Localidad </label>
+                    <div class="col-xs-3">
+                        <select id="txtlocalidad" class="form-control input-sm"></select>
+                        @*<input type="text" id="txtlocalidad" autocomplete="off" class="form-control input-sm" onkeypress="buscar(event)">*@
+                    </div>
+                </div>
+
+                <div class="form-group col-sm-2">
+                    <label for="txtubicacion">Ubicación</label>
+                    <div class="col-xs-5">
+                        <select id="txtubicacion" class="form-control input-sm"></select>
+                        @*<input type="text" id="txtubicacion" autocomplete="off" class="form-control input-sm" onkeypress="buscar(event)">*@
+                    </div>
+                </div>
+
+                <div class="form-group col-sm-2">
+                    <label for="txtplaca">Placa</label>
+                    <div class="col-xs-5">
+                        <input type="text" id="txtplaca" autocomplete="off" class="form-control input-sm" onkeypress="buscar(event)">
+                    </div>
+                </div>
+
+                <div class="form-group col-sm-2">
+                    <label for="txtclase">Clase </label>
+                    <div class="col-xs-4">
+                        <select id="txtclase" class="form-control input-sm"></select>
+                        @*<input type="text" id="txtclase" autocomplete="off" class="form-control input-sm" onkeypress="buscar(event)">*@
+                    </div>
+
+                </div>
+
+
+                <div class="form-group col-sm-2">
+                    <label for="txtmarca">Marca</label>
+                    <div class="col-xs-5">
+                        <select id="txtmarca" class="form-control input-sm"></select>
+                        @*<input type="text" id="txtmarca" autocomplete="off" class="form-control input-sm" onkeypress="buscar(event)">*@
+                    </div>
+                </div>
+                <div class="form-group col-sm-2">
+                    <label for="txtmodelo">Modelo</label>
+                    <div class="col-xs-5">
+                        <select id="txtmodelo" class="form-control input-sm"></select>
+                        @*<input type="text" id="txtmodelo" autocomplete="off" class="form-control input-sm" onkeypress="buscar(event)">*@
+                    </div>
+                </div>
+
+                <div class="form-group col-sm-2">
+                    <label for="txtunidad">Estado unidad</label>
+                    <div class="col-xs-5">
+                        <select id="txtunidad" class="form-control input-sm"></select>
+                        @*<input type="text" id="txtunidad" autocomplete="off" class="form-control input-sm" onkeypress="buscar(event)">*@
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="txtreparacion">Situación Reparación</label>
+                    <div class="col-xs-5">
+                        <select id="txtreparacion" class="form-control input-sm"></select>
+                        @*<input type="text" id="txtreparacion" autocomplete="off" class="form-control input-sm" onkeypress="buscar(event)">*@
+                    </div>
+                </div>
+                <div class="form-group col-xs-2 col-sm-2">
+                    <label for="txtFechaIncio">Fecha inicial</label>
+                    <div class="col-xs-2">
+                        <input type="text" id="txtFechaIncio" autocomplete="off" class="form-control input-sm">
+                    </div>
+                </div>
+                <div class="form-group col-xs-2 col-sm-2">
+                    <label for="txtFechaFinal">Fecha final</label>
+                    <div class="col-xs-2">
+                        <input type="text" id="txtFechaFinal" autocomplete="off" class="form-control input-sm">
+                    </div>
+                </div>
+
+
+                <div class="form-group btn-buscar">
+                    <div class="col-xs-5">
+                        <button type="button" class="btn btn-info btn-sm" id="btn-buscar">Buscar</button>
+                    </div>
+                </div>
+                <div class="form-group btn-buscar">
+                    <div class="col-xs-3">
+                        <button type="button" class="btn btn-default btn-sm" id="btn-refrescar"><i class="fas fa-sync"></i> </button>
+                    </div>
+                </div>
+
+                @*@if (WebSession.Acciones.Where(P => P.idOpcion == (int)ViewBag.IdOpcion && P.codigo == Constantes.Exportar_Xlsx).Any())
+                    {*@
+                <div class="form-group btn-buscar">
+                    <div class="col-xs-5">
+                        @using (Html.BeginForm("ExportXlsx", "ReporteHistorialUnidad", FormMethod.Post))
+                        {
+                            <button type="submit" class="btn btn-success btn-sm" id="btn-descagarXlsx">Xlsx <i class="fas fa-file-excel"></i> <i class="fas fa-download"></i> </button>
+                        }
+                    </div>
+                </div>
+
+                @*@if (WebSession.Acciones.Where(P => P.idOpcion == (int)ViewBag.IdOpcion && P.codigo == Constantes.Exportar_Xls).Any())
+                    {*@
+                <div class="form-group btn-buscar">
+                    <div class="col-xs-5">
+                        @using (Html.BeginForm("ExportXls", "ReporteHistorialUnidad", FormMethod.Post))
+                        {
+                            <button type="submit" class="btn btn-success btn-sm" id="btn-descagarXls">Xls <i class="fas fa-file-excel"></i> <i class="fas fa-download"></i> </button>
+                        }
+                    </div>
+                </div>
+
+                @*@if (WebSession.Acciones.Where(P => P.idOpcion == (int)ViewBag.IdOpcion && P.codigo == Constantes.ReporteConcepto).Any())
+                    {*@
+                <div class="form-group btn-buscar">
+                    <div class="col-xs-5">
+                        <button type="button" class="btn btn-success btn-sm" id="btn-reporteConceto">Reporte Concepto <i class="fas fa-file-excel"></i> </button>
+                    </div>
+                </div>
+
+                <div class="form-group btn-buscar">
+                    <div class="col-xs-5">
+                        <button type="button" class="btn btn-success btn-sm" id="btn-reporteRepuesto">Reporte repuesto <i class="fas fa-file-excel"></i> </button>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.row -->
+        </div>
+
+    </div>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="box-body table-responsive no-padding">
+                            <table id="DataTableReporteHistorial" class="table table-bordered table-hover" role="grid" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Placa Interna</th>
+                                        <th>Clase</th>
+                                        <th>Marca</th>
+                                        <th>Modelo</th>
+                                        <th>Localidad</th>
+                                        <th>Ubicación</th>
+                                        <th>Fecha ingreso</th>
+                                        <th>Fecha Salida</th>
+                                        <th>Concepto</th>
+                                        <th>Situación reparacion</th>
+                                        <th><i class="fas fa-folder-minus"></i></th>
+                                        <th>Concepto</th>
+                                        <th>Repuesto</th>
+                                    </tr>
+                                </thead>
+                            </table>
+
+                        </div>
+
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+
+</div>
+
+
+<div class="modal fade in" id="modal-concepto" style="display: none; padding-right: 17px;" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="tile-historial"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Concepto</th>
+                                <th>Costo</th>
+                            </tr>
+                        </thead>
+                        <tbody id="content-concepto"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
+                @*<button type="button" class="btn btn-primary">Save changes</button>*@
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<div class="modal fade in" id="modal-repuesto" style="display: none; padding-right: 17px;" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="tile-repuesto"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Codigo</th>
+                                <th>Descripcion</th>
+                                <th>Cantidad</th>
+                                <th>Precio Unitario</th>
+                                <th>Precio total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="content-repuesto"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
+                @*<button type="button" class="btn btn-primary">Save changes</button>*@
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<div class="modal fade" id="modal-reporte-concepto" style="display: none;" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="tile-historial">Reporte de conceptos</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="form-group col-sm-5">
+                            <label for="cboConcepto">Conceptos</label>
+                            <div class="col-xs-5">
+                                <select id="cboConcepto" class="input-sm" multiple="multiple"></select>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-3">
+                            <label for="txtfechaInicio">Fecha inicio </label>
+                            <div class="col-xs-5">
+                                <input type="text" id="txtfechaInicio" autocomplete="off" class="form-control input-sm" onkeypress="buscar(event)">
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-3">
+                            <label for="txtfechaFin">Fecha fin </label>
+                            <div class="col-xs-5">
+
+                                <input type="text" id="txtfechaFin" autocomplete="off" class="form-control input-sm" onkeypress="buscar(event)">
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="modal-footer-concepto">
+                <button type="button" class="btn btn-default pull-left-concepto" data-dismiss="modal">Cerrar</button>
+                <button type="button" id="btn-exportar-xlsx" class="btn btn-primary">Exportar Xlsx <i class="fas fa-download"></i></button>
+                <button type="button" id="btn-exportar-xls" class="btn btn-primary">Exportar Xls <i class="fas fa-download"></i></button>
+            </div>
+            @*<div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>*@
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="modal-reporte-repuesto" style="display: none;" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="tile-historial">Reporte de repuestos</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="form-group col-sm-5">
+                            <label for="cboRepuesto">Repuestos</label>
+                            <div class="col-xs-5">
+                                <select id="cboRepuesto" class="input-sm" multiple="multiple"></select>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-3">
+                            <label for="txtfechaInicio_repuesto">Fecha inicio </label>
+                            <div class="col-xs-5">
+                                <input type="text" id="txtfechaInicio_repuesto" autocomplete="off" class="form-control input-sm" onkeypress="buscar(event)">
+                            </div>
+                        </div>
+
+                        <div class="form-group col-sm-3">
+                            <label for="txtfechaFin_repuesto">Fecha fin </label>
+                            <div class="col-xs-5">
+
+                                <input type="text" id="txtfechaFin_repuesto" autocomplete="off" class="form-control input-sm" onkeypress="buscar(event)">
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="modal-footer-concepto">
+                <button type="button" class="btn btn-default pull-left-concepto" data-dismiss="modal">Cerrar</button>
+                <button type="button" id="btn-exportar-xlsx-repuesto" class="btn btn-primary">Exportar Xlsx <i class="fas fa-download"></i></button>
+                <button type="button" id="btn-exportar-xls-repuesto" class="btn btn-primary">Exportar Xls <i class="fas fa-download"></i></button>
+            </div>
+
+
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+@section scripts{
+    <script src="~/plugins/datatables/jquery.dataTables.js"></script>
+    <script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+    <script src="~/plugins/daterangepicker/daterangepicker.js"></script>
+    <script src="~/plugins/daterangepicker/moment.min.js"></script>
+    <script src="~/multiselect/bootstrap-multiselect.js"></script>
+    <script src="~/ViewJs/ReporteHistorial.js?v=1"></script>
+    <script type="text/javascript">$(document).ready(function () {
+            ReporteHistorial.init();
+        });</script>
+
+}
+

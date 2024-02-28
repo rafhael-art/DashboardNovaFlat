@@ -10,6 +10,8 @@ public class Constantes
 
     #endregion KeyString
 
+    public const string HomeController = "Dashboard";
+    public const string HomeAction = "Index";
 
 
     #region Opciones 

@@ -31,6 +31,14 @@
 		<None Remove="Mappings\" />
 		<None Remove="Views\AnexoIV\" />
 		<None Remove="Views\AnexoV\" />
+		<None Remove="Views\ActualizacionContraseña\" />
+		<None Remove="Views\ConsultaEstadoFlota\" />
+		<None Remove="Views\ConsultaFacturas\" />
+		<None Remove="Views\EstadoActualFlota\" />
+		<None Remove="Views\ReporteHistorialUnidad\" />
+		<None Remove="Views\StockProducto\" />
+		<None Remove="Views\UnidadFlotaLima\" />
+		<None Remove="Views\Vehiculo\" />
 	</ItemGroup>
 	<ItemGroup>
 		<Folder Include="Core\" />
@@ -52,6 +60,14 @@
 		<Folder Include="Mappings\" />
 		<Folder Include="Views\AnexoIV\" />
 		<Folder Include="Views\AnexoV\" />
+		<Folder Include="Views\ActualizacionContraseña\" />
+		<Folder Include="Views\ConsultaEstadoFlota\" />
+		<Folder Include="Views\ConsultaFacturas\" />
+		<Folder Include="Views\EstadoActualFlota\" />
+		<Folder Include="Views\ReporteHistorialUnidad\" />
+		<Folder Include="Views\StockProducto\" />
+		<Folder Include="Views\UnidadFlotaLima\" />
+		<Folder Include="Views\Vehiculo\" />
 	</ItemGroup>
 	<ItemGroup>
 		<Content Remove="wwwroot\" />

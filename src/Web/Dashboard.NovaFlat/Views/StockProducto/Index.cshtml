@@ -1,0 +1,228 @@
+﻿
+@{
+    ViewBag.Title = "Stock de producto";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <link href="~/plugins/datatables-bs4/css/dataTables.bootstrap4.css" rel="stylesheet" />
+    <link href="~/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" />
+    <!-- Toastr -->
+    <link href="~/plugins/toastr/toastr.min.css" rel="stylesheet" />
+    <link href="~/css/Custumer.css" rel="stylesheet" />
+}
+
+<div class="content-header">
+
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h3 class="m-0 text-dark">Lista de stock de productos</h3>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index","Dashboard")"><i class="fas fa-home"></i> Inicio</a></li>
+                    <li class="breadcrumb-item">Consultas</li>
+                    <li class="breadcrumb-item active">Lista de stock de producto</li>
+
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+
+    <div class="card card-default">
+        <!-- /.card-header -->
+        <div class="card-body" style="display: block;">
+            <div class="row">
+
+
+                <div class="form-group col-sm-2">
+                    <label for="txtFechaHasta">Fecha Hasta:</label>
+                    <div class="col-xs-5">
+                        <input type="text" id="txtFechaHasta" autocomplete="off" class="form-control input-sm" onkeypress="buscar(event)">
+                    </div>
+                </div>
+
+                <div class="form-group col-sm-2">
+                    <label for="cboAlmacen">Almacen: </label>
+                    <div class="col-xs-5">
+
+                        <select id="cboAlmacen" class="form-control input-sm"></select>
+                    </div>
+
+                </div>
+                <div class="form-group col-sm-2">
+                    <label for="txtCodigo">Codigo: </label>
+                    <div class="col-xs-5">
+                        <input type="text" id="txtCodigo" autocomplete="off" class="form-control input-sm" onkeypress="buscar(event)">
+                    </div>
+                </div>
+
+                <div class="form-group col-sm-3">
+                    <label for="txtDescripcion">Descripcion: </label>
+                    <div class="col-xs-5">
+                        <input type="text" id="txtDescripcion" autocomplete="off" class="form-control input-sm" onkeypress="buscar(event)">
+                    </div>
+                </div>
+
+                <div class="form-group btn-buscar">
+                    <div class="col-xs-5">
+                        <button type="button" class="btn btn-default btn-sm" id="btn-buscar">Buscar</button>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group btn-buscar">
+                    <div class="col-xs-5">
+
+                        <button type="button" id="btn-exportar-xlsx" class="btn btn-success btn-sm">Exportar Xlsx <i class="fas fa-download"></i></button>
+                    </div>
+                </div>
+
+
+                <div class="form-group btn-buscar">
+                    <div class="col-xs-5">
+                        <button type="button" id="btn-exportar-xls" class="btn btn-success btn-sm">Exportar Xls <i class="fas fa-download"></i></button>
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- /.row -->
+        </div>
+
+    </div>
+
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+
+                    <!-- /.card-header -->
+                    <div class="card-body">
+
+                        <table id="DataTableStock" class="table table-bordered table-hover" role="grid" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Codigo</th>
+                                    <th>Descripcion</th>
+                                    <th>Stock</th>
+                                    <th>Kardex</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                    <!-- ./card-body -->
+                    <div class="card-footer">
+                        <div class="row" id="footer-estadoUnidad">
+
+
+                        </div>
+                        <!-- /.row -->
+                    </div>
+                    <!-- /.card-footer -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+
+
+
+</div>
+
+
+<div class="modal fade" id="modal-kardex" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="tile-kardex"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="card card-default">
+
+                        <!-- /.card-header -->
+                        <div class="card-body" style="display: block;">
+                            <div class="row">
+                                <div class="form-group col-xs-3 col-sm-3">
+                                    <label for="cboTipo">Tipo </label>
+                                    <div class="col-xs-4">
+                                        <select id="cboTipo" class="form-control input-sm">
+                                            <option value="0">TODOS</option>
+                                            <option value="1">INGRESOS</option>
+                                            <option value="2">SALIDAS</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-xs-3 col-sm-3">
+                                    <label for="cboMotivo">Motivo </label>
+                                    <div class="col-xs-4">
+                                        <select id="cboMotivo" class="form-control input-sm"></select>
+                                    </div>
+
+                                </div>
+                                <div class="form-group btn-buscar">
+                                    <div class="col-xs-3">
+                                        <button type="button" class="btn btn-default btn-sm" id="btn-buscar-kardex">Buscar</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- /.row -->
+                        </div>
+
+                    </div>
+
+                    <table id="DataTableKardex" class="table table-bordered table-hover" role="grid" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Numero Doc</th>
+                                <th>Fecha</th>
+                                <th>Motivo</th>
+                                <th>Referencia</th>
+                                <th>Observacion</th>
+                                <th>Ingresos</th>
+                                <th>salidas</th>
+                                <th>Saldo</th>
+
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
+                @*<button type="button" class="btn btn-primary">S</button>*@
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+
+@section scripts{
+    <script src="~/plugins/datatables/jquery.dataTables.js"></script>
+    <script src="~/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+    <script src="~/plugins/daterangepicker/daterangepicker.js"></script>
+    <script src="~/ViewJs/StockProducto.js"></script>
+    <script type="text/javascript">$(document).ready(function () {
+            StockProducto.init();
+        });</script>
+
+}
