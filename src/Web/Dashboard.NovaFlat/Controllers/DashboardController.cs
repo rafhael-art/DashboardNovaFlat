@@ -22,28 +22,9 @@ namespace Dashboard.NovaFlat.Controllers
             _mediator = mediator;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var currentUser = GetNombreUser();
-            ViewData["nombreUsuario"] = currentUser.Item1;
-            var opciones = await _mediator.Send(new GetOptionsByUserQuery { idUsuario = currentUser.Item2 });
-
-            return View(opciones);
-        }
-
-        private (string, int) GetNombreUser()
-        {
-            ClaimsPrincipal claimsUser = HttpContext.User;
-            string nombreUser = "";
-            int id = 0;
-            if (claimsUser.Identity!.IsAuthenticated)
-            {
-                nombreUser = claimsUser.Claims.Where(x => x.Type == ClaimTypes.Name)
-                    .Select(c => c.Value).SingleOrDefault()!;
-                id = Convert.ToInt32(claimsUser.Claims.Where(x => x.Type == ClaimTypes.Email)
-                    .Select(c => c.Value).SingleOrDefault()!);
-            }
-            return (nombreUser, id);
+            return View();
         }
 
         [HttpPost]

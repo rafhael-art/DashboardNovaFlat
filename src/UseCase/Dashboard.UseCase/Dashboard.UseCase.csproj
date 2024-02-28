@@ -34,6 +34,11 @@
     <None Remove="UseCase\ReporteEstadoUnidadLima\" />
     <None Remove="UseCase\Common\Queries\EstadoSelect\" />
     <None Remove="UseCase\AnexoIV\Queries\AnexoIVLista\" />
+    <None Remove="UseCase\AnexoV\" />
+    <None Remove="UseCase\AnexoV\Commands\" />
+    <None Remove="UseCase\AnexoV\Queries\" />
+    <None Remove="UseCase\AnexoV\Queries\AnexoVLista\" />
+    <None Remove="UseCase\Common\Queries\FacturaSelect\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Extensions\" />
@@ -63,6 +68,11 @@
     <Folder Include="UseCase\ReporteEstadoUnidadLima\" />
     <Folder Include="UseCase\Common\Queries\EstadoSelect\" />
     <Folder Include="UseCase\AnexoIV\Queries\AnexoIVLista\" />
+    <Folder Include="UseCase\AnexoV\" />
+    <Folder Include="UseCase\AnexoV\Commands\" />
+    <Folder Include="UseCase\AnexoV\Queries\" />
+    <Folder Include="UseCase\AnexoV\Queries\AnexoVLista\" />
+    <Folder Include="UseCase\Common\Queries\FacturaSelect\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Persistence\Dashboard.Persistence\Dashboard.Persistence.csproj" />

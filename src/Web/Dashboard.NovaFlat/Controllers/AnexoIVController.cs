@@ -1,5 +1,4 @@
-﻿using System.Security.Claims;
-using AutoMapper;
+﻿using AutoMapper;
 using Azure.Storage.Files.Shares;
 using Azure.Storage.Files.Shares.Models;
 using Dashboard.Common;
@@ -8,7 +7,6 @@ using Dashboard.Model.Entites;
 using Dashboard.NovaFlat.Core;
 using Dashboard.NovaFlat.Models;
 using Dashboard.UseCase.UseCase.AnexoIV.Queries.AnexoIVLista;
-using Dashboard.UseCase.UseCase.Login.Queries.GetOptionsByUser;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,27 +25,9 @@ namespace Dashboard.NovaFlat.Controllers
             _mediator = meditor;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var currentUser = GetNombreUser();
-            ViewData["nombreUsuario"] = currentUser.Item1;
-            var opciones = await _mediator.Send(new GetOptionsByUserQuery { idUsuario = currentUser.Item2 });
-
-            return View(opciones);
-        }
-        private (string, int) GetNombreUser()
-        {
-            ClaimsPrincipal claimsUser = HttpContext.User;
-            string nombreUser = "";
-            int id = 0;
-            if (claimsUser.Identity!.IsAuthenticated)
-            {
-                nombreUser = claimsUser.Claims.Where(x => x.Type == ClaimTypes.Name)
-                    .Select(c => c.Value).SingleOrDefault()!;
-                id = Convert.ToInt32(claimsUser.Claims.Where(x => x.Type == ClaimTypes.Email)
-                    .Select(c => c.Value).SingleOrDefault()!);
-            }
-            return (nombreUser, id);
+            return View();
         }
 
         [HttpPost]
@@ -105,7 +85,7 @@ namespace Dashboard.NovaFlat.Controllers
             query.estado = estado;
             var list = (await _mediator.Send(query)).ToList();
 
-            var model = _mapper.Map<List<AnexoIV>, List<AnexoIVModel>>(list);
+            var model = _mapper.Map<List<AnexoIVModel>>(list);
             var workbook = ClosedXmlGenerator<AnexoIVModel>.WorkBook_AnexoIV(model);
 
             return new ExcelResult(workbook, "Reporte_AnexoIV", 2);

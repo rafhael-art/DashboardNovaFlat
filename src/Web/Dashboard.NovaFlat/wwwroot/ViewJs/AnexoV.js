@@ -71,7 +71,7 @@ var AnexoV = function () {
         $("#btn-buscar").on("click", function () {
             dataTableAnexoV.ajax.reload(function (json) {
 
-                
+
             });
         });
 
@@ -238,7 +238,7 @@ var AnexoV = function () {
         });
 
         $("#txtFechaDesde").on('change', (e) => {
-            if ($("#txtfechaHasta").val() === "") 
+            if ($("#txtfechaHasta").val() === "")
                 $("#txtfechaHasta").val($("#txtFechaDesde").val())
         });
 
@@ -265,7 +265,7 @@ var AnexoV = function () {
     }
 
     var fLimpiarFacturas = () => {
-        
+
         $('#txtAnioFactura').val(0)
         $('#txtMesFactura').val(0)
         $('#txtFacturas').val(0)
@@ -318,77 +318,77 @@ var AnexoV = function () {
             bAutoWidth: false,
             columns: [
                 { "data": "hxuc_icorrelativo" },
-                { "data": "Clase" },
-                { "data": "PlacaInterna" },
-                { "data": "PlacaRodaje" }, // render: $.fn.dataTable.render.number(',', '.', 2)
-                { "data": "Marca" },
-                { "data": "Modelo" },
-                { "data": "Motor" },
-                { "data": "SerieVIN" },
-                { "data": "Ubicaciondepartamento" },
-                { "data": "UbicacionProvincia" },
-                { "data": "UbicacionDistrito" },
-                { "data": "Latitud" },
-                { "data": "Longitud" },
-                { "data": "CostoUnidad", render: $.fn.dataTable.render.number(',', '.', 2) },
-                { "data": "AnioFabricacion" },
-                { "data": "AnioEntregaPNP" },
-                { "data": "FechaEntregaPNP" },
-                { "data": "InicioOperaciones" },
-                { "data": "NumeroPoliza" },
-                { "data": "NumeroCertificado" },
-                { "data": "Estado" },
-                { "data": "FechaBaja" },
-                { "data": "MotivoBaja" },
-                { "data": "CostoAcumuladoTotal", render: $.fn.dataTable.render.number(',', '.', 2) },
-                { "data": "CostoAcumuladoFLAT", render: $.fn.dataTable.render.number(',', '.', 2) },
-                { "data": "CostoAcumuladoAdicional", render: $.fn.dataTable.render.number(',', '.', 2) },
+                { "data": "clase" },
+                { "data": "placaInterna" },
+                { "data": "placaRodaje" }, // render: $.fn.dataTable.render.number(',', '.', 2)
+                { "data": "marca" },
+                { "data": "modelo" },
+                { "data": "motor" },
+                { "data": "serieVIN" },
+                { "data": "ubicaciondepartamento" },
+                { "data": "ubicacionProvincia" },
+                { "data": "ubicacionDistrito" },
+                { "data": "latitud" },
+                { "data": "longitud" },
+                { "data": "costoUnidad", render: $.fn.dataTable.render.number(',', '.', 2) },
+                { "data": "anioFabricacion" },
+                { "data": "anioEntregaPNP" },
+                { "data": "fechaEntregaPNP" },
+                { "data": "inicioOperaciones" },
+                { "data": "numeroPoliza" },
+                { "data": "numeroCertificado" },
+                { "data": "estado" },
+                { "data": "fechaBaja" },
+                { "data": "motivoBaja" },
+                { "data": "costoAcumuladoTotal", render: $.fn.dataTable.render.number(',', '.', 2) },
+                { "data": "costoAcumuladoFLAT", render: $.fn.dataTable.render.number(',', '.', 2) },
+                { "data": "costoAcumuladoAdicional", render: $.fn.dataTable.render.number(',', '.', 2) },
 
                 {
                     "data": function (obj) {
-                        return '<p data-toggle="tooltip" title="' + obj.TallerResponsable + '">' + obj.TallerResponsable.toString().substring(0, 10) + '... </p>'
+                        return '<p data-toggle="tooltip" title="' + obj.tallerResponsable + '">' + obj.tallerResponsable.toString().substring(0, 10) + '... </p>'
                     }
                 },
-                { "data": "RUC" },
+                { "data": "ruc" },
                 {
                     "data": function (obj) {
-                        return '<a data-toggle="tooltip" title="Ver documento" style="text-decoration:underline" class="btn-verPDFRepuesto" data-nombreArchivo="' + obj.ruta_repuesto + '"  href="#">Nro° ' + obj.NPresupuesto + '</a>';
+                        return '<a data-toggle="tooltip" title="Ver documento" style="text-decoration:underline" class="btn-verPDFRepuesto" data-nombreArchivo="' + obj.ruta_repuesto + '"  href="#">Nro° ' + obj.nPresupuesto + '</a>';
                     }
                 },
                 {
                     "data": function (obj) {
-                        return '<a style="text-decoration:underline" class="btn-verPDFFactura" data-nombreArchivo="' + obj.ruta_factura + '"  href="#">' + obj.Factura + '</a>';
+                        return '<a style="text-decoration:underline" class="btn-verPDFFactura" data-nombreArchivo="' + obj.ruta_factura + '"  href="#">' + obj.factura + '</a>';
                     }
                 },
-                { "data": "Mesfactura" },
-                { "data": "Moneda" },
-                { "data": "MontoFacturaSinIGV", render: $.fn.dataTable.render.number(',', '.', 2) },
-                { "data": "Flat" },
-                { "data": "TrabajoRealizado" },
+                { "data": "mesfactura" },
+                { "data": "moneda" },
+                { "data": "montoFacturaSinIGV", render: $.fn.dataTable.render.number(',', '.', 2) },
+                { "data": "flat" },
+                { "data": "trabajoRealizado" },
 
-                { "data": "KmIngresoTaller" },//, render: $.fn.dataTable.render.number(',', '.', 0) },
-                { "data": "CodRepuesto" },
+                { "data": "kmIngresoTaller" },//, render: $.fn.dataTable.render.number(',', '.', 0) },
+                { "data": "codRepuesto" },
                 {
                     "data": function (obj) {
-                        return '<p data-toggle="tooltip" title="' + obj.Descripcion + '">' + obj.Descripcion.toString().substring(0, 10) + '... </p>'
+                        return '<p data-toggle="tooltip" title="' + obj.descripcion + '">' + obj.descripcion.toString().substring(0, 10) + '... </p>'
                     }
                 },
-                { "data": "CostoSinIGV", render: $.fn.dataTable.render.number(',', '.', 2) },
-                { "data": "KmUltimoCambio", render: $.fn.dataTable.render.number(',', '.', 0) },
-                { "data": "KmVidaUtilReal", render: $.fn.dataTable.render.number(',', '.', 0) },
+                { "data": "costoSinIGV", render: $.fn.dataTable.render.number(',', '.', 2) },
+                { "data": "kmUltimoCambio", render: $.fn.dataTable.render.number(',', '.', 0) },
+                { "data": "kmVidaUtilReal", render: $.fn.dataTable.render.number(',', '.', 0) },
                 //{ "data": "KmVidaUtilFabricante", render: $.fn.dataTable.render.number(',', '.', 0) },
                 {
                     "data": function (obj) {
-                        return '<label style="margin-right: 4px;">' + obj.KmVidaUtilFabricante + '</label>' +
+                        return '<label style="margin-right: 4px;">' + obj.kmVidaUtilFabricante + '</label>' +
 
-                            '<a class="btn-Actualizar"  data-KmVidaUtilFabricante="' + obj.KmVidaUtilFabricante + '" data-CodRepuesto="' + obj.CodRepuesto + '" data-Descripcion="' + obj.Descripcion + '" href="#"><i class="fas fa-edit"></i></a> '
+                            '<a class="btn-Actualizar"  data-KmVidaUtilFabricante="' + obj.kmVidaUtilFabricante + '" data-CodRepuesto="' + obj.codRepuesto + '" data-Descripcion="' + obj.descripcion + '" href="#"><i class="fas fa-edit"></i></a> '
                     }
                 },
-                { "data": "TipoCambio" },
+                { "data": "tipoCambio" },
 
-                { "data": "MotivoFalla" },
-                { "data": "MecanicoResponsable" },
-                { "data": "TipoMantenimiento" },
+                { "data": "motivoFalla" },
+                { "data": "mecanicoResponsable" },
+                { "data": "tipoMantenimiento" },
                 { "data": "hxuc_nmonto_stock" },
                 { "data": "total_costo" },
             ],
@@ -452,7 +452,7 @@ var AnexoV = function () {
             },
         });
 
-  
+
 
     };
 
@@ -465,7 +465,7 @@ var AnexoV = function () {
             async: false
         }, function (response) {
             $("#txtCodRepuesto").append('<option value="0">TODOS</option>');
-            $.each(response.Data, function (index, item) {
+            $.each(response.data, function (index, item) {
                 $("#txtCodRepuesto").append('<option value="' + item.repuesto + '">' + item.repuesto + '</option>');
             });
             $("#txtCodRepuesto").val("0");
@@ -483,7 +483,7 @@ var AnexoV = function () {
 
         }, function (response) {
             $("#txtDepartamento").append('<option value="0">TODOS</option>');
-            $.each(response.Data, function (index, item) {
+            $.each(response.data, function (index, item) {
                 $("#txtDepartamento").append('<option value="' + item.ubicc_icod_ubicacion + '">' + item.ubicc_vnombre_ubicacion + '</option>');
             });
             $("#txtDepartamento").val("0");
@@ -512,7 +512,7 @@ var AnexoV = function () {
             parametros: parametro
         }, function (response) {
             $("#txtProvincia").append('<option value="0">TODOS</option>');
-            $.each(response.Data, function (index, item) {
+            $.each(response.data, function (index, item) {
                 $("#txtProvincia").append('<option value="' + item.ubicc_icod_ubicacion + '">' + item.ubicc_vnombre_ubicacion + '</option>');
             });
             $("#txtProvincia").val("0");
@@ -536,7 +536,7 @@ var AnexoV = function () {
             parametros: parametro
         }, function (response) {
             $("#txtMantenimiento").append('<option value="0">TODOS</option>');
-            $.each(response.Data, function (index, item) {
+            $.each(response.data, function (index, item) {
                 $("#txtMantenimiento").append('<option value="' + item.mantenimiento + '">' + item.mantenimiento + '</option>');
             });
             $("#txtMantenimiento").val("0");
@@ -555,7 +555,7 @@ var AnexoV = function () {
             async: false
         }, function (response) {
             $("#txtlocalidad").append('<option value="0">TODOS</option>');
-            $.each(response.Data, function (index, item) {
+            $.each(response.data, function (index, item) {
                 $("#txtlocalidad").append('<option value="' + item.localidad + '">' + item.localidad + '</option>');
             });
             $("#txtlocalidad").val("0");
@@ -572,7 +572,7 @@ var AnexoV = function () {
             async: false
         }, function (response) {
             $("#txtubicacion").append('<option value="0">TODOS</option>');
-            $.each(response.Data, function (index, item) {
+            $.each(response.data, function (index, item) {
                 if (item.ubicacion != '') {
                     $("#txtubicacion").append('<option value="' + item.ubicacion + '">' + item.ubicacion + '</option>');
                 }
@@ -591,8 +591,8 @@ var AnexoV = function () {
             async: false
         }, function (response) {
             $("#txtclase").append('<option value="0">TODOS</option>');
-            $.each(response.Data, function (index, item) {
-                $("#txtclase").append('<option value="' + item.clase + '">' + item.clase + '</option>');
+            $.each(response.data, function (index, item) {
+                $("#txtclase").append('<option value="' + item + '">' + item + '</option>');
             });
             $("#txtclase").val("0");
         }, function (response) {
@@ -608,7 +608,7 @@ var AnexoV = function () {
             async: false
         }, function (response) {
             $("#txtunidad").append('<option value="0">TODOS</option>');
-            $.each(response.Data, function (index, item) {
+            $.each(response.data, function (index, item) {
                 $("#txtunidad").append('<option value="' + item.estado + '">' + item.estado + '</option>');
             });
             $("#txtunidad").val("0");
@@ -625,7 +625,7 @@ var AnexoV = function () {
             async: false
         }, function (response) {
             $("#txtmarca").append('<option value="0">TODOS</option>');
-            $.each(response.Data, function (index, item) {
+            $.each(response.data, function (index, item) {
                 $("#txtmarca").append('<option value="' + item.marca + '">' + item.marca + '</option>');
             });
             $("#txtmarca").val("0");
@@ -642,7 +642,7 @@ var AnexoV = function () {
             async: false
         }, function (response) {
             $("#txtmodelo").append('<option value="0">TODOS</option>');
-            $.each(response.Data, function (index, item) {
+            $.each(response.data, function (index, item) {
                 $("#txtmodelo").append('<option value="' + item.modelo + '">' + item.modelo + '</option>');
             });
             $("#txtmodelo").val("0");
@@ -677,7 +677,7 @@ var AnexoV = function () {
             async: false,
             parametros: dataTableModel
         }, function (response) {
-            $.each(response.Data, function (index, item) {
+            $.each(response.data, function (index, item) {
                 $("#txtFacturas").append('<option value="' + item + '">' + item + '</option>');
             });
             $("#txtFacturas").val("0");
@@ -700,7 +700,7 @@ var AnexoV = function () {
             async: false,
             parametros: dataTableModel
         }, function (response) {
-            $.each(response.Data, function (index, item) {
+            $.each(response.data, function (index, item) {
                 $("#txtAnioFactura").append('<option value="' + item + '">' + item + '</option>');
             });
             $("#txtAnioFactura").val("0");

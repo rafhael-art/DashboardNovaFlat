@@ -1,5 +1,4 @@
-﻿using System.Security.Claims;
-using AutoMapper;
+﻿using AutoMapper;
 using Dashboard.Common;
 using Dashboard.Common.DataTable;
 using Dashboard.Model.Entites;
@@ -14,13 +13,11 @@ using Dashboard.UseCase.UseCase.Common.Queries.MantenimientoSelect;
 using Dashboard.UseCase.UseCase.Common.Queries.ProvinciaSelect;
 using Dashboard.UseCase.UseCase.Common.Queries.RepuestoSelect;
 using Dashboard.UseCase.UseCase.Common.Queries.UnidadFlotaSelect;
-using Dashboard.UseCase.UseCase.Login.Queries.GetOptionsByUser;
 using Dashboard.UseCase.UseCase.UnidadFlota.Queries.HistorialListar;
 using Dashboard.UseCase.UseCase.UnidadFlota.Queries.UnidadFlotaListar;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 
 namespace Dashboard.NovaFlat.Controllers
@@ -37,27 +34,9 @@ namespace Dashboard.NovaFlat.Controllers
             _mapper = mapper;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var currentUser = GetNombreUser();
-            ViewData["nombreUsuario"] = currentUser.Item1;
-            var opciones = await _mediator.Send(new GetOptionsByUserQuery { idUsuario = currentUser.Item2 });
-
-            return View(opciones);
-        }
-        private (string, int) GetNombreUser()
-        {
-            ClaimsPrincipal claimsUser = HttpContext.User;
-            string nombreUser = "";
-            int id = 0;
-            if (claimsUser.Identity!.IsAuthenticated)
-            {
-                nombreUser = claimsUser.Claims.Where(x => x.Type == ClaimTypes.Name)
-                    .Select(c => c.Value).SingleOrDefault()!;
-                id = Convert.ToInt32(claimsUser.Claims.Where(x => x.Type == ClaimTypes.Email)
-                    .Select(c => c.Value).SingleOrDefault()!);
-            }
-            return (nombreUser, id);
+            return View();
         }
 
         [HttpPost]
@@ -66,17 +45,17 @@ namespace Dashboard.NovaFlat.Controllers
             try
             {
                 var query = _mapper.Map<UnidadFlotaListarQuery>(dataTableModel);
-                var data = (await _mediator.Send(query)).ToList();
+                var data = await _mediator.Send(query);
                 dataTableModel.data = data;
-                if (data.Count() > 0)
+                if (data.Any())
                 {
-                    dataTableModel.recordsTotal = data[0].cantidad;
+                    dataTableModel.recordsTotal = data.ElementAt(0).cantidad;
                     dataTableModel.recordsFiltered = dataTableModel.recordsTotal;
                 }
 
                 query._Rows = int.MaxValue;
                 var data_Imprimir = (await _mediator.Send(query)).ToList();
-                HttpContext.Session.SetString("ReporteUnidadFlota", JsonConvert.SerializeObject(data_Imprimir));
+                WebSession.ReporteUnidadFlota = data_Imprimir;
             }
             catch (Exception ex)
             {
@@ -114,26 +93,16 @@ namespace Dashboard.NovaFlat.Controllers
         [HttpPost]
         public ActionResult ExportXlsx()
         {
-            var json = HttpContext.Session.GetString("ReporteUnidadFlota");
-
-            List<UnidadFlota> data = JsonConvert.DeserializeObject<List<UnidadFlota>>(json!)!;
-
-            var dataImpresion = ImpresionData(data);
-
+            var dataImpresion = ImpresionData(WebSession.ReporteUnidadFlota.ToList());
             var workbook = ClosedXmlGenerator<UnidadFlotaImprimirModel>.GenerateWorkBook_UnidadFlota(dataImpresion);
-
             return new ExcelResult(workbook, "ReporteUnidadFlota", 1);
         }
 
         [HttpPost]
         public ActionResult ExportXls()
         {
-            var json = HttpContext.Session.GetString("ReporteUnidadFlota");
-            List<UnidadFlota> data = JsonConvert.DeserializeObject<List<UnidadFlota>>(json!)!;
-            var dataImpresion = ImpresionData(data);
-
+            var dataImpresion = ImpresionData(WebSession.ReporteUnidadFlota.ToList());
             var workbook = ClosedXmlGenerator<UnidadFlotaImprimirModel>.GenerateWorkBook_UnidadFlota(dataImpresion);
-
             return new ExcelResult(workbook, "ReporteUnidadFlota", 2);
         }
 

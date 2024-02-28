@@ -11,6 +11,7 @@ namespace Dashboard.UseCase.UseCase.AnexoIV.Queries.AnexoIVLista
         public string? modelo { get; set; }
         public string? estado { get; set; }
         public string? localidad { get; set; }
+        public string? ubicacion { get; set; }
         public string? fechaInico { get; set; }
         public string? fechaFinal { get; set; }
         public int id_departamento { get; set; }

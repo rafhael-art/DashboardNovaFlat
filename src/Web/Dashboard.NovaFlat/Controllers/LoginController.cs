@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using Dashboard.NovaFlat.Core;
 using Microsoft.Extensions.Logging;
+using Dashboard.UseCase.UseCase.Login.Queries.GetOptionsByUser;
 
 namespace Dashboard.NovaFlat.Controllers;
 
@@ -81,7 +82,7 @@ public class LoginController : BaseController
             {
                 var usuarioDTO = UsuarioDTO(usuario);
                 jsonResponse.Data = usuarioDTO;
-                await GenerarTickectAutenticacion(usuarioDTO);
+                await GenerarTickectAutenticacion(HttpContext, usuarioDTO);
             }
             else
             {
@@ -90,8 +91,9 @@ public class LoginController : BaseController
             }
 
         }
-        catch
+        catch (Exception ex)
         {
+            jsonResponse.InnerExepcion = ex.Message;
             jsonResponse.Success = false;
             jsonResponse.Message = Mensajes.IntenteloMasTarde;
         }
@@ -99,25 +101,29 @@ public class LoginController : BaseController
         return jsonResponse;
     }
 
-    private async Task GenerarTickectAutenticacion(UsuarioLogin usuarioDTO)
+    private async Task GenerarTickectAutenticacion(HttpContext httpContext, UsuarioLogin usuarioDTO)
     {
         List<Claim> claims = new List<Claim>()
-            {
-                new Claim(ClaimTypes.Name, usuarioDTO.Username!),
-                new Claim(ClaimTypes.Email, usuarioDTO.Id.ToString()!)
-            };
+        {
+        new Claim(ClaimTypes.Name, usuarioDTO.Username!),
+        new Claim(ClaimTypes.Email, usuarioDTO.Id.ToString()!)
+        };
 
         ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
         AuthenticationProperties properties = new AuthenticationProperties()
         {
             AllowRefresh = true
         };
-        await HttpContext.SignInAsync(
+        await httpContext.SignInAsync(
             CookieAuthenticationDefaults.AuthenticationScheme,
             new ClaimsPrincipal(claimsIdentity),
             properties
-            );
+        );
+
+        WebSession.Usuario = usuarioDTO;
+        WebSession.opciones = await _mediator.Send(new GetOptionsByUserQuery { idUsuario = usuarioDTO.Id });
     }
+
 
     [HttpPost]
     public JsonResult VerifySession()

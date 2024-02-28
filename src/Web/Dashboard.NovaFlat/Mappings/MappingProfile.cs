@@ -3,6 +3,7 @@ using Dashboard.Common.DataTable;
 using Dashboard.Model.Entites;
 using Dashboard.NovaFlat.Models;
 using Dashboard.UseCase.UseCase.AnexoIV.Queries.AnexoIVLista;
+using Dashboard.UseCase.UseCase.AnexoV.Queries.AnexoVLista;
 using Dashboard.UseCase.UseCase.UnidadFlota.Queries.HistorialListar;
 using Dashboard.UseCase.UseCase.UnidadFlota.Queries.UnidadFlotaListar;
 
@@ -32,20 +33,36 @@ namespace Dashboard.NovaFlat.Mappings
                 ;
 
             CreateMap<DataTableModel<AnexoIVModelFilter, int>, AnexoIVListaQuery>()
-            .ForMember(dest => dest.fechaInico, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.filter!.fechaIncio) ? "" : Convert.ToDateTime(src.filter!.fechaIncio).ToString("yyyy-MM-dd")))
-            .ForMember(dest => dest.fechaFinal, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.filter!.fechaFin) ? "" : Convert.ToDateTime(src.filter!.fechaFin).ToString("yyyy-MM-dd")))
-            .ForMember(dest => dest.clase, opt => opt.MapFrom(src => src.filter!.clase == "0" ? "" : src.filter.clase))
-            .ForMember(dest => dest.marca, opt => opt.MapFrom(src => src.filter!.marca == "0" ? "" : src.filter.marca))
-            .ForMember(dest => dest.modelo, opt => opt.MapFrom(src => src.filter!.modelo == "0" ? "" : src.filter.modelo))
-            .ForMember(dest => dest.localidad, opt => opt.MapFrom(src => src.filter!.localidad == "0" ? "" : src.filter.clase))
-            .ForMember(dest => dest.estado, opt => opt.MapFrom(src => src.filter!.estado == "0" ? "" : src.filter.localidad))
-            .ForMember(dest => dest.placa, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.filter!.placa) ? "" : src.filter!.placa == "0" ? "" : src.filter.placa))
-            .ForMember(dest => dest.id_departamento, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.filter!.departamento) ? 0 : Convert.ToInt32(src.filter.departamento)))
-            .ForMember(dest => dest.id_provincia, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.filter!.provincia) ? 0 : Convert.ToInt32(src.filter.provincia)))
-            .ForMember(dest => dest.numEvento, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.filter!.numEvento) ? 0 : Convert.ToInt32(src.filter.numEvento)))
-            ;
+                .ForMember(dest => dest.fechaInico, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.filter!.fechaIncio) ? "" : Convert.ToDateTime(src.filter!.fechaIncio).ToString("yyyy-MM-dd")))
+                .ForMember(dest => dest.fechaFinal, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.filter!.fechaFin) ? "" : Convert.ToDateTime(src.filter!.fechaFin).ToString("yyyy-MM-dd")))
+                .ForMember(dest => dest.clase, opt => opt.MapFrom(src => src.filter!.clase == "0" ? "" : src.filter.clase))
+                .ForMember(dest => dest.marca, opt => opt.MapFrom(src => src.filter!.marca == "0" ? "" : src.filter.marca))
+                .ForMember(dest => dest.modelo, opt => opt.MapFrom(src => src.filter!.modelo == "0" ? "" : src.filter.modelo))
+                .ForMember(dest => dest.localidad, opt => opt.MapFrom(src => src.filter!.localidad == "0" ? "" : src.filter.clase))
+                .ForMember(dest => dest.estado, opt => opt.MapFrom(src => src.filter!.estado == "0" ? "" : src.filter.localidad))
+                .ForMember(dest => dest.placa, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.filter!.placa) ? "" : src.filter!.placa == "0" ? "" : src.filter.placa))
+                .ForMember(dest => dest.id_departamento, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.filter!.departamento) ? 0 : Convert.ToInt32(src.filter.departamento)))
+                .ForMember(dest => dest.id_provincia, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.filter!.provincia) ? 0 : Convert.ToInt32(src.filter.provincia)))
+                .ForMember(dest => dest.numEvento, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.filter!.numEvento) ? 0 : Convert.ToInt32(src.filter.numEvento)))
+                ;
 
             CreateMap<AnexoIV, AnexoIVModel>().ReverseMap();
+
+            CreateMap<DataTableModel<AnexoVModelFilter, int>, AnexoVListaQuery>()
+                .ForMember(dest => dest.id_departamento, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.filter!.departamento) ? 0 : Convert.ToInt32(src.filter.departamento)))
+                .ForMember(dest => dest.id_provincia, opt => opt.MapFrom(src => string.IsNullOrWhiteSpace(src.filter!.provincia) ? 0 : Convert.ToInt32(src.filter.provincia)))
+                .ForMember(dest => dest.MesFactura, opt => opt.MapFrom(src => Convert.ToInt32(src.filter!.MesFactura)))
+                .ForMember(dest => dest.AnioFactura, opt => opt.MapFrom(src => Convert.ToInt32(src.filter!.AnioFactura)))
+                .ForMember(dest => dest.NumEvento, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.filter!.NumEvento) ? 0 : Convert.ToInt32(src.filter.NumEvento)))
+                .ForMember(dest => dest.Flat, opt => opt.MapFrom(src => Convert.ToInt32(src.filter!.Flat)))
+                .ForMember(dest => dest.fechaInico, opt => opt.MapFrom(src => src.filter!.fechaIncio))
+                .ForMember(dest => dest.fechaFinal, opt => opt.MapFrom(src => src.filter!.fechaFin))
+                .ForMember(dest => dest.clase, opt => opt.MapFrom(src => src.filter!.clase))
+                .ForMember(dest => dest.placa, opt => opt.MapFrom(src => string.IsNullOrEmpty(src.filter!.placa) ? "" : src.filter!.placa))
+                .ForMember(dest => dest.Factura, opt => opt.MapFrom(src => src.filter!.Factura))
+                .ForMember(dest => dest.NumEvento, opt => opt.MapFrom(src => Convert.ToInt32(src.filter!.NumEvento)));
+
+            CreateMap<AnexoVModel, AnexoV>().ReverseMap();
         }
     }
 }

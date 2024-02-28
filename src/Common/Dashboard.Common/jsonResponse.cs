@@ -7,4 +7,5 @@ public class jsonResponse
     public bool Success { get; set; }
     public bool Warning { get; set; }
     public object? Data { get; set; }
+    public string? InnerExepcion { get; set; }
 }

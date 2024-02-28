@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Dashboard.UseCase.Extensions;
 using Dashboard.Persistence.Extensions;
 using System.Reflection;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,8 @@ builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddInjectionApplication();
 builder.Services.AddInjectionPersistence();
 builder.Services.AddSession();
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {

@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using System.Security.Claims;
 using AutoMapper;
+using Dashboard.Model.Entites;
+using Dashboard.NovaFlat.Core;
+using Dashboard.NovaFlat.Models;
 using Dashboard.UseCase.UseCase.Login.Queries.GetOptionsByUser;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using Dashboard.Common;
+using Dashboard.Common.DataTable;
+using Newtonsoft.Json;
+using Dashboard.UseCase.UseCase.AnexoV.Queries.AnexoVLista;
+using Dashboard.UseCase.UseCase.Common.Queries.FacturaSelect;
 
 namespace Dashboard.NovaFlat.Controllers
 {
@@ -25,28 +27,96 @@ namespace Dashboard.NovaFlat.Controllers
             _mediator = mediator;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var currentUser = GetNombreUser();
-            ViewData["nombreUsuario"] = currentUser.Item1;
-            var opciones = await _mediator.Send(new GetOptionsByUserQuery { idUsuario = currentUser.Item2 });
-
-            return View(opciones);
+            return View();
         }
 
-        private (string, int) GetNombreUser()
+        [HttpPost]
+        public async Task<JsonResult> Lista(DataTableModel<AnexoVModelFilter, int> dataTableModel)
         {
-            ClaimsPrincipal claimsUser = HttpContext.User;
-            string nombreUser = "";
-            int id = 0;
-            if (claimsUser.Identity!.IsAuthenticated)
+
+            try
             {
-                nombreUser = claimsUser.Claims.Where(x => x.Type == ClaimTypes.Name)
-                    .Select(c => c.Value).SingleOrDefault()!;
-                id = Convert.ToInt32(claimsUser.Claims.Where(x => x.Type == ClaimTypes.Email)
-                    .Select(c => c.Value).SingleOrDefault()!);
+                var query = _mapper.Map<AnexoVListaQuery>(dataTableModel);
+                dataTableModel.data = (await _mediator.Send(query)).ToList();
+
+                HttpContext.Session.SetString("lstA5", JsonConvert.SerializeObject(dataTableModel.data));
             }
-            return (nombreUser, id);
+            catch (Exception ex)
+            {
+                string error = ex.Message;
+                dataTableModel.data = new List<AnexoIV>();
+            }
+
+            return Json(dataTableModel);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> GetFacturas()
+        {
+            var jsonResponse = new jsonResponse { Success = true };
+            try
+            {
+                jsonResponse.Data = (await _mediator.Send(new FacturaSelectQuery()))
+                                    .ToList()
+                                    .Select(x => x.Factura)
+                                    .ToList();
+            }
+            catch (Exception ex)
+            {
+                string error = ex.Message;
+                jsonResponse.Data = new List<AnexoIV>();
+            }
+
+            return Json(jsonResponse);
+        }
+
+        [HttpPost]
+        public JsonResult GetAnios()
+        {
+            var jsonResponse = new jsonResponse { Success = true };
+            try
+            {
+                List<int> anios = new List<int>();
+                int inicial = 2015;
+                int final = DateTime.Now.Year + 1;
+                for (int i = inicial; i <= final; i++)
+                {
+                    anios.Add(i);
+                }
+                jsonResponse.Data = anios;
+            }
+            catch (Exception ex)
+            {
+                string error = ex.Message;
+                jsonResponse.Data = new List<AnexoIV>();
+            }
+
+            return Json(jsonResponse);
+        }
+
+
+        public async Task<ActionResult> Exportar_Xlsx(string fechaI, string fechaF, string localidad, string ubicacion, string placa, string clase, string marca, string modelo, string estado, int departamento, int provincia, string mantenimiento, string NumEvento, string Factura, string MesFactura, string AnioFactura)
+        {
+            var query = new AnexoVListaQuery
+            {
+                fechaInico = fechaI,
+                fechaFinal = fechaF,
+                placa = placa,
+                clase = clase,
+                id_departamento = departamento,
+                id_provincia = provincia,
+                Factura = Factura,
+                MesFactura = Convert.ToInt32(MesFactura),
+                AnioFactura = Convert.ToInt32(AnioFactura),
+                NumEvento = string.IsNullOrEmpty(NumEvento) ? 0 : Convert.ToInt32(NumEvento)
+            };
+            var list = (await _mediator.Send(query)).ToList();
+
+            var model = _mapper.Map<List<AnexoVModel>>(list);
+            var workbook = ClosedXmlGenerator<AnexoVModel>.WorkBook_AnexoV(model);
+            return new ExcelResult(workbook, "Reporte_AnexoV", 1);
         }
     }
 }

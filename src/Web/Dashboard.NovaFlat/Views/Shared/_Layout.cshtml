@@ -1,5 +1,4 @@
-﻿@model IEnumerable<Opciones>
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -100,7 +99,7 @@
                     </div>
                     <div class="info">
 
-                        @Html.Raw(string.Format("<span class='d-block' id='usernameLogOn' style='color:white'><strong>{0}</strong></span>", @ViewData["nombreUsuario"]))
+                        @Html.Raw(string.Format("<span class='d-block' id='usernameLogOn' style='color:white'><strong>{0}</strong></span>", WebSession.Usuario.Username?.ToUpper()))
                         <a href="#"><i class="fa fa-circle text-success"></i> conectado</a>
                     </div>
                 </div>
@@ -127,7 +126,7 @@
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
-                            @if (Model.Where(p => p.formc_vnombre_forms == Constantes.Op_UnidadFlota).Any())
+                            @if (WebSession.opciones.Where(p => p.formc_vnombre_forms == Constantes.Op_UnidadFlota).Any())
                             {
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
@@ -139,11 +138,11 @@
                                 </ul>
                             }
 
-                            @if (Model.Where(p => p.formc_vnombre_forms == Constantes.Op_UnidadFlotaLima).Any())
+                            @if (WebSession.opciones.Where(p => p.formc_vnombre_forms == Constantes.Op_UnidadFlotaLima).Any())
                             {
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="@Url.Action("Index" ,"UnidadFlotaLima",new {Id= "0"})" class="nav-link ">
+                                        <a href="@Url.Action("Index" ,"UnidadFlotaLima")" class="nav-link ">
                                             <i class="fa fa-list"></i>
                                             <p>Lista de unidades de flota Lima</p>
                                         </a>
@@ -151,11 +150,11 @@
                                 </ul>
                             }
 
-                            @if (Model.Where(p => p.formc_vnombre_forms == Constantes.Op_StockProducto).Any())
+                            @if (WebSession.opciones.Where(p => p.formc_vnombre_forms == Constantes.Op_StockProducto).Any())
                             {
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="@Url.Action("Index" ,"StockProducto",new {Id= "0"})" class="nav-link ">
+                                        <a href="@Url.Action("Index" ,"StockProducto")" class="nav-link ">
                                             <i class="fa fa-list"></i>
                                             <p>Stock de Productos</p>
                                         </a>
@@ -163,7 +162,7 @@
                                 </ul>
                             }
 
-                            @if (Model.Where(p => p.formc_vnombre_forms == Constantes.Op_ConsultaEstadoActualFlota).Any())
+                            @if (WebSession.opciones.Where(p => p.formc_vnombre_forms == Constantes.Op_ConsultaEstadoActualFlota).Any())
                             {
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
@@ -186,11 +185,11 @@
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
-                            @if (Model.Where(p => p.formc_vnombre_forms == Constantes.Op_ReporteHistorialUnidad).Any())
+                            @if (WebSession.opciones.Where(p => p.formc_vnombre_forms == Constantes.Op_ReporteHistorialUnidad).Any())
                             {
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="@Url.Action("Index" ,"ReporteHistorialUnidad",new {Id= "0"})" class="nav-link ">
+                                        <a href="@Url.Action("Index" ,"ReporteHistorialUnidad")" class="nav-link ">
                                             <i class="fa fa-chart-bar"></i>
                                             <p>Historial de unidades</p>
                                         </a>
@@ -199,7 +198,7 @@
                             }
 
 
-                            @if (Model.Where(p => p.formc_vnombre_forms == Constantes.Op_AnexoIV).Any())
+                            @if (WebSession.opciones.Where(p => p.formc_vnombre_forms == Constantes.Op_AnexoIV).Any())
                             {
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
@@ -212,11 +211,11 @@
                             }
 
 
-                            @if (Model.Where(p => p.formc_vnombre_forms == Constantes.Op_AnexoV).Any())
+                            @if (WebSession.opciones.Where(p => p.formc_vnombre_forms == Constantes.Op_AnexoV).Any())
                             {
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="@Url.Action("Index" ,"AnexoV",new {Id= "0"})" class="nav-link ">
+                                        <a href="@Url.Action("Index" ,"AnexoV")" class="nav-link ">
                                             <i class="fa fa-chart-bar"></i>
                                             <p>Anexo V Reporte de Costos</p>
                                         </a>
@@ -224,7 +223,7 @@
                                 </ul>
                             }
 
-                            @if (Model.Where(p => p.formc_vnombre_forms == Constantes.Op_ConsultaEstadoFlota).Any())
+                            @if (WebSession.opciones.Where(p => p.formc_vnombre_forms == Constantes.Op_ConsultaEstadoFlota).Any())
                             {
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
@@ -237,7 +236,7 @@
                             }
 
 
-                            @if (Model.Where(p => p.formc_vnombre_forms == Constantes.Op_ConsultaFacturas).Any())
+                            @if (WebSession.opciones.Where(p => p.formc_vnombre_forms == Constantes.Op_ConsultaFacturas).Any())
                             {
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
@@ -260,11 +259,11 @@
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
-                            @if (Model.Where(p => p.formc_vnombre_forms == Constantes.Op_Vehiculo).Any())
+                            @if (WebSession.opciones.Where(p => p.formc_vnombre_forms == Constantes.Op_Vehiculo).Any())
                             {
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="@Url.Action("Index" ,"Vehiculo",new {Id= "0"})" class="nav-link ">
+                                        <a href="@Url.Action("Index" ,"Vehiculo")" class="nav-link ">
                                             <i class="fa fa-car"></i>
                                             <p>Registro Datos del Vehículo</p>
                                         </a>
@@ -273,7 +272,7 @@
                             }
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="@Url.Action("Index" ,"ActualizacionContraseña",new {Id= "0"})" class="nav-link ">
+                                    <a href="@Url.Action("Index" ,"ActualizacionContraseña")" class="nav-link ">
                                         <i class="fa fa-user-lock"></i>
                                         <p>Actualización de Contraseñas</p>
                                     </a>
